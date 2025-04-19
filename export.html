@@ -196,10 +196,36 @@ document.getElementById("nkn2").style.display="block";
       }
       
       
+      function rdbname(db, st, k) {
+      return new Promise((res, rej) => {
+      const req = indexedDB.open(db);
+      
+      req.onerror = () => rej('DB open error');
+      
+      req.onsuccess = () => {
+      const d = req.result;
+      const tx = d.transaction([st], 'readonly');
+      const s = tx.objectStore(st);
+      const g = s.get(k);
+      
+      g.onerror = () => rej('Get error');
+      g.onsuccess = () => res(g.result);
+      };
+      });
+      }
+      
+      let delus="";
+      rdbname('black', 'sst', 'user')
+      .then((val)=> {
+      delus=val;
+      delus=val["p"];
+      });
       
       
       function pccon(t, y) {
-      const key = "blackkeymi";
+      const key = delus;
+     
+      
       const chunkSize = 1000;
       let result = '';
       
