@@ -12,10 +12,24 @@ valforgp=x.value;
 let inca=[];
        let expa=[];
        let bala=[];
-       document.querySelectorAll(".incomeColumn").forEach((x)=>{inca.push(parseInt(x.innerHTML))});
-       document.querySelectorAll(".exep").forEach((x)=>{expa.push(parseInt(x.innerHTML))});
-       document.querySelectorAll(".Abal").forEach((x)=>{bala.push(parseInt(x.innerHTML))});
+       document.querySelectorAll(".incomeColumn").forEach((x) => {
        
+       if (x.parentNode.parentNode.style.display !== "none") {
+       inca.push(parseInt(x.innerHTML));
+       }
+       });
+       
+       document.querySelectorAll(".exep").forEach((x) => {
+       if (x.parentNode.parentNode.style.display !== "none") {
+       expa.push(parseInt(x.innerHTML));
+       }
+       });
+       
+       document.querySelectorAll(".Abal").forEach((x) => {
+       if (x.parentNode.parentNode.style.display !== "none") {
+       bala.push(parseInt(x.innerHTML));
+       }
+       });
       setTimeout(()=>{
         backchhh(inca,expa,bala);
       },100);
@@ -390,7 +404,7 @@ function alve(){
        document.querySelectorAll(".Abal").forEach((x)=>{bala.push(parseInt(x.innerHTML))});
        
       setTimeout(()=>{
-        backchhh(inca,expa,bala);
+      //  backchhh(inca,expa,bala);
       },1000);
       
         }
