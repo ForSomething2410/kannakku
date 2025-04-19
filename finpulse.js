@@ -6,19 +6,34 @@ let dadatra="";
 let bt="transparent";
 let a="white";
         let b="black";
-let valforgp="";
-function chgapval(x){
-valforgp=x.value;
+
+function chgapval(){
+
 let inca=[];
        let expa=[];
        let bala=[];
-       document.querySelectorAll(".incomeColumn").forEach((x)=>{inca.push(parseInt(x.innerHTML))});
-       document.querySelectorAll(".exep").forEach((x)=>{expa.push(parseInt(x.innerHTML))});
-       document.querySelectorAll(".Abal").forEach((x)=>{bala.push(parseInt(x.innerHTML))});
+       document.querySelectorAll(".incomeColumn").forEach((x) => {
        
+       if (x.parentNode.parentNode.style.display !== "none") {
+       inca.push(parseInt(x.innerHTML));
+       }
+       });
+       
+       document.querySelectorAll(".exep").forEach((x) => {
+       if (x.parentNode.parentNode.style.display !== "none") {
+       expa.push(parseInt(x.innerHTML));
+       }
+       });
+       
+       document.querySelectorAll(".Abal").forEach((x) => {
+       if (x.parentNode.parentNode.style.display !== "none") {
+       bala.push(parseInt(x.innerHTML));
+       }
+       });
       setTimeout(()=>{
+     
         backchhh(inca,expa,bala);
-      },100);
+      },0);
 }
 function alve(){
       let lenSum=0;
@@ -343,10 +358,12 @@ function alve(){
         }
         
         
-       parDI.style.display = fouM ? "" : "none";
+       parDI.style.display = fouM ? "flex" : "none";
         }
         
         updateTotals();
+        
+        chgapval();
         }
        
         function updateTotals() {
@@ -388,7 +405,7 @@ function alve(){
        document.querySelectorAll(".Abal").forEach((x)=>{bala.push(parseInt(x.innerHTML))});
        
       setTimeout(()=>{
-        backchhh(inca,expa,bala);
+       // backchhh(inca,expa,bala);
       },1000);
       
         }

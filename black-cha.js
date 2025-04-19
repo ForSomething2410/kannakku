@@ -1,5 +1,7 @@
 let newlinech = null;
 function backchhh(i, e, b) {
+
+let valforgp=document.getElementById("grpsel").value;
     if (newlinech) {
         newlinech.destroy();
     }
