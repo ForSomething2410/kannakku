@@ -92,7 +92,7 @@
     <input type="password" id="p" placeholder="Password" required><br>
    <!-- <input onchange="importData()" type="file" id="fileInput" required><br> -->
    
-    <input type="number" id="logpin" min="0000" max="9999" placeholder="Create 4 digit pin" requried>
+    <input type="number" id="logpin" min="0000" max="9999" placeholder="Create 4 digit pin" required>
     <button type="submit">Login</button>
 
     </fieldset>
@@ -122,8 +122,8 @@
         const ux = document.getElementById('u').value;
         const px = document.getElementById('p').value;
         const pi= document.getElementById('logpin').value;
-        const piurl= document.getElementById('urlinp').value;
-        importData(piurl);
+       impor(document.getElementById('urlinp').value,px);
+        
         if(px===nkndata["p"]){
           alert("login successfilll");
           localStorage.setItem("blackuser", u);
@@ -131,7 +131,7 @@
           location.href="finpulse.html";
 
         }else{
-         alert("Click Once More / wrond user name and password");
+        alert("Click Once More / wrond user name and password");
         }
       
     
@@ -141,18 +141,10 @@
     
     let nkndata = {};
     
-    function importData(url) {
-    fetch(url)
-    .then(response => {
-    if (!response.ok) {
-    throw new Error('Network response was not ok.');
-    }
-    return response.text();
-    })
-    .then(text => {
+    function importData() {
     try {
-    let xcv = pccon(text, "d");
-    const data = JSON.parse(xcv);
+    const data = JSON.parse(alldata);
+   // alert(data);
     
     if (typeof data !== 'object' || Array.isArray(data)) {
     throw new Error();
@@ -183,7 +175,7 @@
     }
     
     tx.oncomplete = () => {
-    alert('Data Readed Succesfully successfully!');
+  //  alert('Data Readed Succesfully successfully!');
     db.close();
     };
     
@@ -192,14 +184,9 @@
     
     dbReq.onerror = () => alert('Error opening database.');
     } catch (err) {
-    alert('Invalid blackroad file');
+    alert('Invalid blackroad file ' + err);
     }
-    })
-    .catch(err => {
-    alert('Failed to fetch file: ' + err.message);
-    });
     }
-    
   
     
     function chkR(k, u) {
@@ -212,7 +199,8 @@
     
     
     function pccon(t, y) {
-    const key = nkndata["p"];
+    const key =document.getElementById('p').value;
+   // alert(key);
     const chunkSize = 1000;
     let result = '';
     
@@ -236,6 +224,18 @@
     throw new Error("x");
     }
     }
+    
+    let alldata="";
+   async function impor(u,pa){
+    let dat = await fetch(u);
+    let cv= await dat.text();
+    let nkn= await pccon(cv,"d");
+    alldata=nkn;
+    importData();
+    }
+    
+    
+    
     
     </script>
     
