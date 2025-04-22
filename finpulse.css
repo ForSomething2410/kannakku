@@ -634,6 +634,11 @@ font-size:10px;
         .cra ,.sinp,#canb,.om,#yyyy,.menu,#tttim,.adimg,#boxxx,#linebal,#grpsel{
         display:none !important;
         }
+        
+        table{
+        color:black !important;
+        }
+        
         #adapa{
         color:black !important;
         text-align:left !important;
