@@ -1,7 +1,13 @@
 let newlinech = null;
+let valforgp="";
 function backchhh(i, e, b) {
 
-let valforgp=document.getElementById("grpsel").value;
+valforgp=document.getElementById("grpsel").value;
+if(valforgp=="n"){
+
+document.getElementById("grpsel").style.display="none";
+window.scrollTo(0, 0);
+}
     if (newlinech) {
         newlinech.destroy();
     }

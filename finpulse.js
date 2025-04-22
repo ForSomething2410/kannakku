@@ -30,6 +30,8 @@ let inca=[];
        bala.push(parseInt(x.innerHTML));
        }
        });
+       
+       
       setTimeout(()=>{
      
         backchhh(inca,expa,bala);
@@ -302,7 +304,7 @@ function alve(){
         document.documentElement.style.setProperty('--tbor',"white");
         document.documentElement.style.setProperty('--back',"#1a1a1a");
         //document.documentElement.style.setProperty('--', );
-        document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=FFFFFF";
+       // document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=FFFFFF";
         document.getElementById(x).id="w";
         }
         if(x=='w'){
@@ -315,7 +317,7 @@ function alve(){
         document.documentElement.style.setProperty('--tbor',"black");
         document.documentElement.style.setProperty('--back',"#f0f0f0");
         //document.documentElement.style.setProperty('--', );
-        document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=000000";
+       // document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=000000";
         document.getElementById(x).id="b";
         }
         }
@@ -488,7 +490,7 @@ function alve(){
             if (container) {
                 container.appendChild(tbl);
             } else {
-                console.error("Container with ID 'catdets' not found.");
+                console.error("'catdets' not.");
             }
         }
     
@@ -497,6 +499,9 @@ function alve(){
     
         for (const cat in data) {
             const row = document.createElement("tr");
+            row.onclick= function (){
+            expcatvi(cat,this);
+            };
             row.innerHTML = `<td>${cat}</td><td>${data[cat].toFixed(2)}</td>`;
             tbody.appendChild(row);
         }
