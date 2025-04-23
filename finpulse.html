@@ -414,6 +414,40 @@ border:none;
 
       <center>
         <br>
+        
+        <div style="display:none;" id="alllvr" class="alver">
+        <details open="true">
+        <summary style="color:var(--b);"> Accounting </summary>
+        <br>
+        <table>
+        
+        <tr>
+        <th class="accttab" style="padding:10px;border-bottom:1px solid var(--bor);">Lend Amt</th>
+        <th class="accttab" style="padding:10px;border-bottom:1px solid var(--bor);">Bank Bal</th>
+        <th class="accttab" style="padding:10px;border-bottom:1px solid var(--bor);">OTH</th>
+        </tr>
+        
+        <tr >
+        <td class="accttab"><input oninput="alve()" value="0" id="lenI"></td>
+        <td class="accttab"><input oninput="alve()" value="0" id="bnkI"></td>
+        <td class="accttab"><input oninput="alve()" value="0" id="oth"></td>
+        </tr>
+        
+        <tr>
+        <td class="accttab" colspan="3"><textarea oninput="alve()" id="texta">0</textarea></td>
+        </tr>
+        <tr>
+        <td class="accttab" style="color:orange;font-size:22px;font-family:'Economica';" id="alvvs">0</td>
+        <td class="accttab" style="color:lightgreen;font-size:26px;font-family:'Economica';" id="evesum">0</td>
+        <td class="accttab" style="color:aqua;font-family:'Economica';font-size:22px;" id="texsum">0</td>
+        </tr>
+        <tr>
+        <td colspan="3"><h4 id="finalAc"> </h4></td>
+        </tr>
+        </table>
+        
+        </details>
+        </div>
         <div id="resnk"></div>
 
           <div id="sumTbl">
@@ -519,41 +553,8 @@ border:none;
 
         <br>
         
-        <div style="display:none;" id="alllvr" class="alver">
-        <details open="true">
-        <summary style="color:var(--b);"> Accounting </summary>
-        <br>
-        <table>
+      
         
-        <tr>
-        <th style="padding:10px;border-bottom:1px solid var(--bor);">Lend Amt</th>
-        <th style="padding:10px;border-bottom:1px solid var(--bor);">Bank Bal</th>
-        <th style="padding:10px;border-bottom:1px solid var(--bor);">OTH</th>
-        </tr>
-        
-        <tr >
-           <td><input oninput="alve()" value="0" id="lenI"></td>
-           <td><input oninput="alve()" value="0" id="bnkI"></td>
-           <td><input oninput="alve()" value="0" id="oth"></td>
-        </tr>
-        
-        <tr>
-        <td colspan="3"><textarea oninput="alve()" id="texta">0</textarea></td>
-        </tr>
-        <tr>
-           <td style="color:orange;font-size:22px;font-family:'Economica';" id="alvvs">0</td>
-           <td style="color:lightgreen;font-size:26px;font-family:'Economica';" id="evesum">0</td>
-           <td style="color:aqua;font-family:'Economica';font-size:22px;" id="texsum">0</td>
-        </tr>
-        <tr>
-        <td colspan="3"><h4 id="finalAc"> </h4></td>
-        </tr>
-        </table>
-        
-        </details>
-        </div>
-        
-        <br>
         <div id="ppr" class="parnt">
           
         </div>

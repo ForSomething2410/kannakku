@@ -778,6 +778,8 @@ const r = indexedDB.open("black");
         }
         
         function printe(){
+        
+        document.getElementById("alllvr").style.display="block";
         window.print();
         }
         
