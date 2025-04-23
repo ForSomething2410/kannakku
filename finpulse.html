@@ -862,15 +862,14 @@ function grpse(x){
           
           Swal.fire({
           html: `
+          <h6 style="margin:0px;padding:0px;font-size:0.7rem;color:black"> Blackroad</h6>
+          <h1 style="margin:0px;padding:0px;color:black;font-family:Roboto;opacity:0.7;">Profile</h1><br>
          <div style="display: flex; justify-content: space-between;">
-         <strong>Name</strong>
-         <strong></strong>
-         <span>${nak.u}</span>
-         </div><br>
-         <div style="display: flex; justify-content: space-between;">
-         <strong>Pass</strong>
-         <strong></strong>
-         <span>${nak.p}</span>
+         <img onclick="chproi(this)" style="border-radius:50%;border:4px solid black;padding:3px" src="https://picsum.photos/500/500" width="140" height="140">
+         <div style="display:flex;flex-direction:column;justify-content:center;gap:15px;align-items:center;">
+          <strong style="font-size:1.5rem;color:black;">${nak.u}</strong>
+          <strong style="font-size:0.9rem;">${nak.p}</strong>
+         </div>
          </div><br>
          <hr>
          <h4> Last Seen </h4>
@@ -883,16 +882,16 @@ function grpse(x){
          <strong>Deletion</strong>
          <strong></strong>
          <span>${delt}</span>
+         </div><br>
+         <hr>
+         <div style="display:flex;justify-content:space-evenly;color:red;">
+           <h5 onclick="location.href='logout.html'" style="color:red;margin:0;"> Logout Acount</h5>
+           <h5 style="color:black;margin:0;"> | </h5>
+           <h5 onclick="location.href='reset.html'" style="color:red;margin:0;"> Delete Acount</h5>
          </div>
           `,
-          imageUrl: 'https://picsum.photos/500/500',
-          imageWidth:100,
-          imageHeight: 100,
-          didOpen: () => {
-          const img = Swal.getImage();
-          img.style.borderRadius = '50%';
-          },
-          confirmButtonText: 'Close'
+          showConfirmButton:false,
+          showCloseButton:true
           });
           
           },1000);
@@ -903,8 +902,15 @@ function grpse(x){
           }
           
          
-         
+         let xti=500;
+          function chproi(x){
           
+          xti+=1;
+          let xg = `https://picsum.photos/${xti}/${xti}`;
+          x.src=xg;
+          
+          
+          }
           
           
           </script>
