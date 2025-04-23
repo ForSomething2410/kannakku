@@ -438,7 +438,8 @@
      
     </div>
   </div>
-
+<script src="lastsen.js" type="text/javascript"></script>
+       
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
   const swiper = new Swiper('.s', {
@@ -593,6 +594,7 @@
   famtC?.();
   addCats?.();
   shofroPie("CAT");
+  dlastd();
   setTimeout(()=>{
   location.reload();
   },1000);
@@ -668,6 +670,8 @@
   icon:"warning"
   });
   }
+  
+  dlastdrem();
   }
   
   
@@ -824,7 +828,9 @@
   if(a>parseInt(bb.innerHTML)){
   
  alert(`Insufficient Balance \n \n Current Balance ${frotuOBS.froIXB.bal}`);
+  
   addFrotuEX();
+  
   let a=0;
   let ds="insufficient balance";
   return { a, c, d, ds };
@@ -870,6 +876,7 @@
   st.put(frotuOBS, "frotuXMMXG");
   addclontrrEx();
   shofroPie("EXP");
+  dlastd();
   
   };
   
@@ -886,7 +893,7 @@
   
   
   async function addFrotuISTemp() {
-  alert(8);
+  
   const { value: v } = await Swal.fire({
   title: "Enter FrotInput",
   html:
@@ -934,7 +941,7 @@
   };
   }
   
-  alert(89);
+
   }
   
   
@@ -997,6 +1004,7 @@
   }
   famtC();
   addCats();
+  dlastdrem();
   shofroPie("EXP");
   Swal.fire('Success', 'Record Deleted from FROTU', 'success');
   //location.reload();

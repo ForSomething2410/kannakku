@@ -214,9 +214,9 @@ const r = indexedDB.open("black");
        p.parentNode.children[4].innerHTML=pp2-parseInt(tA);
        pa.appendChild(diiv);
        // drawChart();
-       addclontr(); 
+       addclontr();
+       dlastd(); 
        updateTotals();
-       
        backINCADD();
        Swal.fire({
        title:"Transaction Added..",
@@ -285,6 +285,7 @@ const r = indexedDB.open("black");
        pbal.innerHTML = bbb + amtt;
        
        x.parentNode.remove();
+       dlastdrem();
        backINCADD();
        famtC();
        addCats();
@@ -765,6 +766,7 @@ const r = indexedDB.open("black");
         let paren = document.getElementById("ppr");
         let refer = paren.firstChild;
         paren.insertBefore(dii, refer);
+        dlastd();
         backINCADD();
         updateTotals();
         dcc();
@@ -824,7 +826,9 @@ const r = indexedDB.open("black");
         icon: "success"
         });
         backINCADD();
+        dlastdrem();
         updateTotals();
+        dlastdrem();
         }
         });
         

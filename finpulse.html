@@ -360,14 +360,14 @@ border:none;
 
 <div class="om">
   <img width="30px" id="mimg" src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF">
-    <ul class="feed">
-      <li id="acNa">Profile</li>
+    <ul class="feed ani-li">
+      <li onclick="profDis()" id="acNa">Profile</li>
       
       <li class="cnrr" onclick="appendC()">Add Record</li>
       <li onclick="location.href='frotu.html'"> Frotu</li>
       <li onclick="location.href='recbor.html'"> Lend </li>
        <li onclick="nknsu()"> Summary </li>
-        <ul id="sumidd">
+        <ul class="ani-li" id="sumidd">
           <li onclick="disexpppp('flex')"> SRC Summary</li>
           <li onclick="nknv()"> Dispersion Exp</li>
           <li onclick="disexpp('flex')"> Exp Summary </li>
@@ -564,7 +564,8 @@ border:none;
       <script src="finpulse.js"></script>
        <script src="black-cha.js" type="text/javascript"></script>
        <script src="expcatdis.js" type="text/javascript"></script>
-       
+       <script src="lastsen.js" type="text/javascript"></script>
+      
        <br><br>
           <script>
 
@@ -819,6 +820,93 @@ function grpse(x){
           window.scrollTo({ top: 0, behavior: 'smooth' });
           }
           });
+          
+          
+          
+          
+          </script>
+          
+          <script>
+          const lis = document.querySelectorAll(".ani-li li");
+          lis.forEach((li, index) => {
+          li.style.animationDelay = `${index * 0.02}s`;
+          });
+          
+          
+          function profDis() {
+          let addt="";
+          let delt="";
+          let nak="";
+          const r = indexedDB.open("black");
+          r.onsuccess = e => {
+          const d = e.target.result;
+          const t = d.transaction(["sst"], 'readwrite');
+          const st = t.objectStore("sst");
+          const nkn = st.get("user");
+          let ghg= st.get("alast");
+          let fgh= st.get("alastrem");
+          // let dbs={data:dataT};
+          ghg.onsuccess=function(){
+          addt=ghg.result;
+          }
+          fgh.onsuccess=function(){
+          delt=fgh.result;
+          }
+          nkn.onsuccess=function(){
+          
+          nak= nkn.result;
+          
+          };
+          
+          setTimeout(()=>{
+          
+          Swal.fire({
+          html: `
+         <div style="display: flex; justify-content: space-between;">
+         <strong>Name</strong>
+         <strong></strong>
+         <span>${nak.u}</span>
+         </div><br>
+         <div style="display: flex; justify-content: space-between;">
+         <strong>Pass</strong>
+         <strong></strong>
+         <span>${nak.p}</span>
+         </div><br>
+         <hr>
+         <h4> Last Seen </h4>
+         <div style="display: flex; justify-content: space-between;">
+         <strong>Insertion</strong>
+         <strong></strong>
+         <span>${addt}</span>
+         </div><br>
+         <div style="display: flex; justify-content: space-between;">
+         <strong>Deletion</strong>
+         <strong></strong>
+         <span>${addt}</span>
+         </div>
+          `,
+          imageUrl: 'https://picsum.photos/500/500',
+          imageWidth:100,
+          imageHeight: 100,
+          didOpen: () => {
+          const img = Swal.getImage();
+          img.style.borderRadius = '50%';
+          },
+          confirmButtonText: 'Close'
+          });
+          
+          },1000);
+         
+          
+          };
+          
+          }
+          
+         
+         
+          
+          
+          
           </script>
         <center>
         <img class="dbimg" id="parr" src="https://raw.githubusercontent.com/microintel/endgram/main/photo/microintel-black-small.png">

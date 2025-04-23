@@ -47,4 +47,6 @@ async function addFrotuISTemp() {
     });
     return xxx;
     };
+    
+    dlastd();
 }

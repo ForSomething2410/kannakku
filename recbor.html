@@ -277,6 +277,8 @@
         
         
     </div>
+    <script src="lastsen.js" type="text/javascript"></script>
+    
    <script>
   let grph=true;
    let rbdada = { rbcon: "", rtot: 0, btot: 0 };
@@ -378,9 +380,11 @@
    store.put(nknco, "nkncc");
    let rx=getcls("R");
    let bx=getcls("B");
+   dlastd();
    rebocc([rx+bx,rx,bx],grph);
    tx.oncomplete = () => {
    display();
+   
    };
    };
    
@@ -451,6 +455,7 @@
    rebocc([rx+bx,rx,bx],grph);
    tx.oncomplete = () => {
    Swal.fire('Deleted!', 'The record removed.', 'success');
+   dlastdrem();
    };
    
    tx.onerror = () => {
