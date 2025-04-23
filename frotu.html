@@ -306,6 +306,10 @@
       <td> Unknown </td> <td id="fun"> 0</td>
       </tr>
       
+      <tr onclick="undis('borrow')">
+      <td> Borrowing </td> <td id="fbor"> 0</td>
+      </tr>
+      
       <tr onclick="undis('overtime')">
       <td> OverTime </td> <td id="fot"> 0</td>
       </tr>
@@ -691,26 +695,29 @@
   let ffun=0;
   let ffov=0;
   let ffoth=0;
-  
+  let ffbor=0;
   document.querySelectorAll(".free").forEach((x)=>{ ffamt+=parseInt(x.children[0].innerHTML) });
   document.querySelectorAll(".reward").forEach((x)=>{ ffrew+=parseInt(x.children[0].innerHTML) });
   document.querySelectorAll(".passive").forEach((x)=>{ ffpass+=parseInt(x.children[0].innerHTML) });
   document.querySelectorAll(".unknown").forEach((x)=>{ ffun+=parseInt(x.children[0].innerHTML) });
   document.querySelectorAll(".overtime").forEach((x)=>{ ffov+=parseInt(x.children[0].innerHTML) });
   document.querySelectorAll(".other").forEach((x)=>{ ffoth+=parseInt(x.children[0].innerHTML) });
+  document.querySelectorAll(".borrow").forEach((x)=>{ ffbor+=parseInt(x.children[0].innerHTML) });
   document.getElementById("ffr").innerHTML= ffamt;
   document.getElementById("frew").innerHTML= ffrew;
   document.getElementById("fpas").innerHTML= ffpass;
   document.getElementById("fun").innerHTML= ffun;
   document.getElementById("fot").innerHTML= ffov;
   document.getElementById("fo").innerHTML= ffoth;
+  document.getElementById("fbor").innerHTML= ffbor;
   frotuCatOb={
   free:ffamt,
   reward:ffrew,
   passive:ffpass,
   unknown:ffun,
   overtime:ffov,
-  other:ffoth
+  other:ffoth,
+  borrow:ffbor
   };
   }
   
@@ -879,8 +886,9 @@
   
   
   async function addFrotuISTemp() {
+  alert(8);
   const { value: v } = await Swal.fire({
-  title: "Enter Frotu Input",
+  title: "Enter FrotInput",
   html:
   `<input id="a" type="number" class="swal2-input" placeholder="Amount"><br><br>` +
   `<select id="c" class="swal2-input">
@@ -925,6 +933,8 @@
   return xxx;
   };
   }
+  
+  alert(89);
   }
   
   

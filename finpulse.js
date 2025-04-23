@@ -38,28 +38,54 @@ let inca=[];
       },0);
 }
 function alve(){
-      let lenSum=0;
-      let texSu=0;
-      let eveSu=0;
-        let allen=document.getElementsByClassName("lmo");
-      // alert(allen.length);
-       for(let f=0;f<allen.length;f++){
-      // alert(allen[f].innerHTML);
-       lenSum+=parseInt(allen[f].innerHTML);
-       }
-      // alert(lenSum);
-       document.getElementById('lenI').value=lenSum;
-      let otv=parseInt(document.getElementById('oth').value);
-     let bI =parseInt(document.getElementById('bnkI').value);
-       document.getElementById("alvvs").innerHTML=lenSum+otv+bI+"<sub>rs</sub>";
-       
-       
-       let tsu=document.getElementById("texta");
-       texSu=eval(tsu.value);
-       eveSu=lenSum+texSu;
-       document.getElementById("texsum").innerHTML=texSu;
-       document.getElementById("evesum").innerHTML=eveSu;
-       
+
+let lendb=0;
+
+const r = indexedDB.open("black");
+        r.onsuccess = e => {
+        const d = e.target.result;
+        const t = d.transaction(["sst"], 'readwrite');
+        const st = t.objectStore("sst");
+        const nkn = st.get("nkncc");
+       // let dbs={data:dataT};
+        
+        nkn.onsuccess=function(){
+        
+        let hel= nkn.result;
+        lendb=hel;
+        
+        let texSu=0;
+        let eveSu=0;
+        
+        document.getElementById('lenI').value=lendb.rtot;
+        let otv=parseInt(document.getElementById('oth').value);
+        let bI =parseInt(document.getElementById('bnkI').value);
+        document.getElementById("alvvs").innerHTML=lendb.rtot+otv+bI+"<sub>rs</sub>";
+        
+        
+        let tsu=document.getElementById("texta");
+        texSu=eval(tsu.value);
+        eveSu=lendb.rtot+texSu;
+        document.getElementById("texsum").innerHTML=texSu;
+        document.getElementById("evesum").innerHTML=eveSu;
+        let ghy=(lendb.rtot+otv+bI)-lendb.btot;
+        let xf=`Borrowings : ${lendb.btot} <br>
+                Recivables : ${lendb.rtot}  <br>
+                Bank Bal   : ${bI} <br>
+                Cash Flow  : ${otv} <br><br>
+           final Balance : ${ghy}
+        
+        `;
+        document.getElementById("finalAc").innerHTML=xf;
+        
+        
+        };
+        
+        
+        };
+
+   
+      
        
         }
         alve();

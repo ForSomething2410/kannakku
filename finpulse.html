@@ -373,7 +373,7 @@ border:none;
           <li onclick="disexpp('flex')"> Exp Summary </li>
           <li onclick="grpse('block')">Graph Ex/bal</li>
         </ul>
-      
+      <li onclick="location.href='#alllvr';document.getElementById('alllvr').style.display='block';Swal.fire({text:'Accounting Feature Enabled',icon:'success'})"> Accounting </li>
       <li onclick="location.href='export.html'"> Export</li>
       <li><font onclick="printe()">Print</font></li>
       <li onclick="location.href='reset.html'">Factory Reset</li>
@@ -519,9 +519,9 @@ border:none;
 
         <br>
         
-        <div style="display:none;" class="alver">
-        <details>
-        <summary style="color:var(--b);">Get clarification</summary>
+        <div style="display:none;" id="alllvr" class="alver">
+        <details open="true">
+        <summary style="color:var(--b);"> Accounting </summary>
         <br>
         <table>
         
@@ -539,14 +539,17 @@ border:none;
         
         <tr>
         <td colspan="3"><textarea oninput="alve()" id="texta">0</textarea></td>
-        
+        </tr>
         <tr>
            <td style="color:orange;font-size:22px;font-family:'Economica';" id="alvvs">0</td>
            <td style="color:lightgreen;font-size:26px;font-family:'Economica';" id="evesum">0</td>
            <td style="color:aqua;font-family:'Economica';font-size:22px;" id="texsum">0</td>
         </tr>
-        
+        <tr>
+        <td colspan="3"><h4 id="finalAc"> </h4></td>
+        </tr>
         </table>
+        
         </details>
         </div>
         
