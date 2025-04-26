@@ -749,6 +749,7 @@ const r = indexedDB.open("black");
         <font class="exep"> 0 </font>
         <font class='Abal'>${i}</font>
         <font onclick="discr('anrdi',this.id)" id="${raa}"><i class="fa fa-plus adimg"></i></font>
+        
         </div>
         <div class="trand">
         
@@ -905,6 +906,75 @@ const r = indexedDB.open("black");
               <i onclick="disexpppp('none')" class="fa fa-times"></i>
              </div> ${tbl}`;
       }
+      
+      function shfet(){
+      
+      Swal.fire({
+      title: 'Choose an Share action',
+      text: 'What would you like to do?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'enable Share',
+      cancelButtonText: 'disable Share'
+      }).then((result) => {
+      if (result.isConfirmed) {
+      enbsh();
+      Swal.fire({text:"Share Feature Enabled Successfully ",icon:"success"});
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+      enbshrem();
+      Swal.fire({text:"Share Feature Disabled Successfully ",icon:"success"});
+      }
+      });
+      }
+      
+      
+      function enbsh(){
+      document.querySelectorAll(".idfeb").forEach((c)=>{
+      let xc=document.createElement("i");
+      xc.className="fa-solid fa-share";
+      xc.style.color="lightgreen";
+      xc.style.marginTop="3px";
+      xc.onclick=function (){
+      captur(c.children[6].id);
+      }
+      c.prepend(xc)
+      });
+      }
+      
+      
+      function enbshrem() {
+      document.querySelectorAll(".idfeb").forEach(c => {
+      if (c.firstElementChild?.className === "fa-solid fa-share") {
+      c.firstElementChild.remove();
+      }
+      });
+      }
+      
+      
+      
+      async function captur(x) {
+      const div = document.getElementById(x);
+      const canvas = await html2canvas(div);
+      canvas.toBlob(async (blob) => {
+      const file = new File([blob], "capture.png", { type: "image/png" });
+      
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+      await navigator.share({
+      files: [file],
+      title: "BlackRod",
+      text: "Income Source!"
+      });
+      } catch (error) {
+      console.error("Sharing failed:", error);
+      }
+      } else {
+      alert("Sharing not supported on this browser.");
+      }
+      });
+      }
+      
+    
       
      
         
