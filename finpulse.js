@@ -953,7 +953,9 @@ const r = indexedDB.open("black");
       
       
       async function captur(x) {
-      const div = document.getElementById(x);
+      const divst = document.getElementById(x);
+      const div= divst.parentNode.parentNode;
+      
       const canvas = await html2canvas(div);
       canvas.toBlob(async (blob) => {
       const file = new File([blob], "capture.png", { type: "image/png" });
