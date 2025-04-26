@@ -901,8 +901,8 @@ const r = indexedDB.open("black");
           tbl += `</tbody></table>`;
       
           document.getElementById('sumTbl').innerHTML = `<div class="head">
-              <i></i>
-              <span> BlackRoad Summary </span>
+              <i onclick="shfei('sumTbl')" class="fa-solid fa-share njk" style="color:lightgreen;display:none;"></i>
+              <span> BlackRoad Summary</span>
               <i onclick="disexpppp('none')" class="fa fa-times"></i>
              </div> ${tbl}`;
       }
@@ -939,6 +939,14 @@ const r = indexedDB.open("black");
       }
       c.prepend(xc)
       });
+      
+      document.querySelectorAll(".njk").forEach((h)=>{
+      h.style.display="block";
+      
+      });
+      document.getElementById("njk").style.display="block";
+      
+      
       }
       
       
@@ -948,6 +956,14 @@ const r = indexedDB.open("black");
       c.firstElementChild.remove();
       }
       });
+      
+      document.querySelectorAll(".njk").forEach((h)=>{
+      h.style.display="none";
+      
+      });
+      
+      document.getElementById("njk").style.display="none";
+      
       }
       
       
@@ -975,6 +991,35 @@ const r = indexedDB.open("black");
       }
       });
       }
+      
+      
+      async function shfei(x) {
+      
+      const div= document.getElementById(x);
+    
+      
+      const canvas = await html2canvas(div);
+      canvas.toBlob(async (blob) => {
+      const file = new File([blob], "capture.png", { type: "image/png" });
+      
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try {
+      await navigator.share({
+      files: [file],
+      title: "BlackRod",
+      text: "Income Source!"
+      });
+      } catch (error) {
+      console.error("Sharing failed:", error);
+      }
+      } else {
+      alert("Sharing not supported on this browser.");
+      }
+      });
+      }
+      
+      
+      
       
     
       

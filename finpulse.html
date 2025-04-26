@@ -460,7 +460,7 @@ border:none;
 
        <div id="catdets">
          <div class="head">
-          <i></i>
+          <i onclick="shfei('catdets')" class="fa-solid fa-share njk" style="color:lightgreen;display:none;"></i>
           <span> Expences Category </span>
           <i onclick="disexpp('none')" class="fa fa-times"></i>
           
@@ -637,7 +637,7 @@ location.href="#resnk";
     result.push({ f: f, x: breakdown });
   }
 
-  let html = "<div id=\"nknb\" style=\"display:flex;justify-content:space-around;margin:0px;padding:0px;color:var(--b)\"><h3></h3><h3> Dispersion Of Expences </h3><i onclick=\"disexppA('none')\" class=\"fa fa-times\"></i></div><br><table cellpadding=\"5\" cellspacing=\"0\">" +
+  let html = "<div id=\"nknb\" style=\"display:flex;justify-content:space-around;margin:0px;padding:0px;color:var(--b)\"><h3><i class=\"fa-solid fa-share\" onclick=\"shfei('resnk')\" style=\"color:lightgreen;display:none;\" id=\"njk\"></i></h3><h3> Dispersion Of Expences </h3><i onclick=\"disexppA('none')\" class=\"fa fa-times\"></i></div><br><table cellpadding=\"5\" cellspacing=\"0\">" +
              "<thead><tr><th>Cat</th><th>Amt</th><th>Src %</th><th>All %</th></tr></thead><tbody id=\"cascc\">";
 
   result.forEach(function(item) {
