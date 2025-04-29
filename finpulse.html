@@ -389,6 +389,7 @@ border:none;
 
 <div id="yyyy" class="theame">
   <img onclick="theame(this.id)" id="w" src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=FFFFFF">
+  
   </div>
 
 </div>
@@ -572,6 +573,114 @@ border:none;
       
        <br><br>
           <script>
+          
+          
+          
+          async function fetDatU() {
+          let addt = null;
+          
+          const r = indexedDB.open("black");
+          
+          r.onsuccess = async (e) => {
+          const d = e.target.result;
+          const t = d.transaction(["sst"], 'readonly');
+          const st = t.objectStore("sst");
+          const nkn = st.get("user");
+          
+          nkn.onsuccess = async function () {
+          let add = nkn.result;
+          addt = add["u"];
+          
+          const response = await fetch("https://forsomething2410.github.io/kannakku/blackdata/lastseen.txt");
+          let serverText = await response.text();
+          serverText = serverText.trim(); 
+          
+          const serverDate = parseDate(serverText);
+          
+          const storedText = localStorage.getItem("last_clicked_time");
+          const storedDate = storedText ? parseDate(storedText) : null;
+          
+          if (storedDate && serverDate.getTime() === storedDate.getTime()) {
+          return; 
+          }
+          
+         
+          const bellIcon = document.createElement('span');
+          bellIcon.className = 'bell-icon';
+          bellIcon.innerHTML = '&#128276;';
+          bellIcon.style.cursor = 'pointer';
+          
+          const badge = document.createElement('span');
+          badge.className = 'badge';
+          badge.innerText = '1';
+          badge.style.position = 'absolute';
+          badge.style.top = '-5px';
+          badge.style.right = '-8px';
+          badge.style.background = 'red';
+          badge.style.color = 'white';
+          badge.style.borderRadius = '50%';
+          badge.style.padding = '2px 6px';
+          badge.style.fontSize = '10px';
+          
+          bellIcon.style.position = 'relative';
+          bellIcon.appendChild(badge);
+          document.getElementById("mmmm").appendChild(bellIcon);
+          
+         
+          let bellBlink = true;
+          let bellCount = 0;
+          const bellBlinkInterval = setInterval(() => {
+          bellIcon.style.opacity = bellBlink ? '1' : '1';
+          bellBlink = !bellBlink;
+          bellCount++;
+          if (bellCount >= 8) {
+          clearInterval(bellBlinkInterval);
+          bellIcon.style.opacity = '1';
+          }
+          }, 500);
+          
+         
+          let blink = true;
+          let count = 0;
+          const interval = setInterval(() => {
+          document.body.style.backgroundImage = blink ? 'linear-gradient(to top right, purple, purple)' : '';
+          document.documentElement.style.setProperty('--back', blink ? 'linear-gradient(to top right, purple, purple)' : '');
+          blink = !blink;
+          count++;
+          if (count >= 8) {
+          clearInterval(interval);
+          document.body.style.backgroundImage = '';
+          document.documentElement.style.setProperty('--back', '');
+          }
+          }, 500);
+          
+         
+          bellIcon.addEventListener('click', async () => {
+          const result = await Swal.fire({
+          
+          text: `Mx. ${addt} has updated BlackRoad. Please log in to view`,
+          icon: "info",
+          confirmButtonText: "Login",
+          allowOutsideClick: false
+          });
+          
+          if (result.isConfirmed) {
+          localStorage.setItem("last_clicked_time", serverText);
+          bellIcon.remove();
+          }
+          });
+          
+        
+          function parseDate(str) {
+          const [d, m, y] = str.split(' ')[0].split('/');
+          const [h, min, s] = str.split(' ')[1].split(':');
+          return new Date(+y, m - 1, +d, +h, +min, +s);
+          }
+          };
+          };
+          }
+          
+          fetDatU();
 
 function nknv() {
 
