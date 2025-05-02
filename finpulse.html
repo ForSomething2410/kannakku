@@ -1042,12 +1042,15 @@ function grpse(x){
          <strong></strong>
          <span>${delt}</span>
          </div><br>
+         
+         <button onclick="nknfetEx(this)">View BackUP File Uploaded Time</button>
          <hr>
          <div style="display:flex;justify-content:space-evenly;color:red;">
            <h5 onclick="location.href='logout.html'" style="color:red;margin:0;"> Logout Acount</h5>
            <h5 style="color:black;margin:0;"> | </h5>
            <h5 onclick="location.href='reset.html'" style="color:red;margin:0;"> Delete Acount</h5>
          </div>
+       
           `,
           showConfirmButton:false,
           showCloseButton:true
@@ -1071,7 +1074,13 @@ function grpse(x){
           
           }
           
+         async function nknfetEx(x){
+          let xc= await fetch("https://forsomething2410.github.io/kannakku/blackdata/lastseen.txt");
+          let vc= await xc.text();
+          x.innerText=vc;
           
+          
+          }
           </script>
         <center>
         <img class="dbimg" id="parr" src="https://raw.githubusercontent.com/microintel/endgram/main/photo/microintel-black-small.png">
