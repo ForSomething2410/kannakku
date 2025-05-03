@@ -298,7 +298,7 @@
    let rx=getcls("R");
    let bx=getcls("B");
    rebocc([rx+bx,rx,bx],grph);
-   
+   vgh();
    
    }
    };
@@ -556,11 +556,11 @@
    for (let i = 0; i < elems.length; i++) {
    const el = elems[i];
    
-   // Check if the element itself is visible and if its parent or grandparent has the class 'child'
+ 
    let parent = el.parentElement;
    let isParentVisible = false;
    
-   // Check if the parent or grandparent has the class 'child' and is visible
+  
    while (parent) {
    if (parent.classList && parent.classList.contains('child')) {
    isParentVisible = parent.style.display !== 'none' && parent.offsetParent !== null;
@@ -600,6 +600,140 @@
   rebocc([rx+bx,rx,bx],grph);
    
    });
+   
+   
+   
+   
+   function vgh(){
+   let allh=document.querySelectorAll(".head");
+   allh.forEach((g)=>{
+    if(g.children[0].className!="bi bi-pencil-square"){
+    
+    let c=document.createElement("i");
+    c.style.color="#CDDC39";
+    c.onclick=function(){
+    
+    calLB(this);
+    
+    };
+    c.className="bi bi-pencil-square";
+    g.prepend(c);
+    
+    
+    }else{
+    g.removeChild(g.children[0]);
+    let c=document.createElement("i");
+    c.style.color="#CDDC39";
+    c.onclick=function(){
+    
+    calLB(this);
+    
+    };
+    c.className="bi bi-pencil-square";
+    g.prepend(c);
+    
+    }
+   
+   });
+   
+   }
+   
+   
+   
+   
+   
+   function calLB(dt){
+   
+   let g=dt.parentNode;
+  
+  
+   let gamt  = g.children[1].innerText;
+   let gdate  = g.children[2].innerText;
+   let gdes  = g.parentNode.children[1].innerHTML;
+   
+   Swal.fire({
+   title: 'Lend Update',
+   html:
+   `<input id="a" type="number" class="swal2-input" placeholder="${gamt}" value="${gamt}"><br><br>
+   <input type="date" id="b" class="swal2-input" placeholder="${gdate}" value="${gdate}"><br><br>
+   <input id="c" class="swal2-input" placeholder="${gdes}" value="${gdes}"><br><br>`,
+   focusConfirm: false,
+   showCloseButton:true,
+   preConfirm: () => {
+   let a = document.getElementById('a').value;
+   let b = document.getElementById('b').value;
+   let c = document.getElementById('c').value;
+   if (!a || !b || !c) {
+   Swal.showValidationMessage('Fill all fields');
+   return false;
+   }
+   return { a, b, c };
+   }
+   }).then(r => {
+   if (r.isConfirmed) {
+   let { a, b, c } = r.value;
+   
+   g.children[1].innerText=a;
+   g.children[2].innerText=b;
+   g.parentNode.children[1].innerHTML=c;
+   
+   let rb = indexedDB.open("black",2);
+   
+   rb.onsuccess = e => {
+   const db = e.target.result;
+   const tx = db.transaction(["sst"], 'readwrite');
+   const store = tx.objectStore("sst");
+   
+   let inel = document.getElementById("rebb");
+   let cons = inel.innerHTML.replace(/\s+/g, ' ').trim();
+   
+   let rt = summ("R");
+   let bt = summ("B");
+   
+   const nknco = {
+   rbcon: cons,
+   rtot: rt,
+   btot: bt
+   };
+   
+   store.put(nknco, "nkncc");
+   
+   };
+   
+   
+   
+   Swal.fire({
+   title:"Lend Updated",
+   html:`Amt : ${a}<br> Date : ${b} <br> Detail : ${c}`,
+   icon:"success"
+   });
+   let rx=getcls("R");
+   let bx=getcls("B");
+   rebocc([rx+bx,rx,bx],grph);
+   
+   }
+   });
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   }
    </script>
 </body>
 </html>
