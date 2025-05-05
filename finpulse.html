@@ -334,11 +334,27 @@ border:none;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    
-    
+    .btnn-group{
+    display:flex;
+    width:90%;
+    flex-wrap:wrap;
+    justify-content:space-evenly;
+    align-items:center;
+    }
+    .btnn-group button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color:var(--w);
+    color:var(--b);
+    border-radius:10px;
+    border:1.5px solid var(--b);
+    }
     
     
 </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tingle.js@0.15.3/dist/tingle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/tingle.js@0.15.3/dist/tingle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -380,13 +396,9 @@ border:none;
         </ul>
         
       <li onclick="location.href='#alllvr';document.getElementById('alllvr').style.display='block';Swal.fire({text:'Accounting Feature Enabled',icon:'success'})"> Accounting </li>
-      <li onclick="shfet()"> Share</li>
-      <li onclick="location.href='export.html'"> Export</li>
-      <li><font onclick="printe()">Print</font></li>
-      <li onclick="location.href='reset.html'">Factory Reset</li>
-      <li onclick="location.href='blackread/index.html'"> Read File </li>
-      <li onclick="location.href='logout.html'">Log out</li>
-    </ul>
+      <li onclick="location.href='Aggreement/agg.html'"> Aggreement </li>
+      <li onclick="showTingle()"> Other </li>
+        </ul>
   </div>
   
   <img id="tttim" width="100px" height="35px" src="https://raw.githubusercontent.com/microintel/endgram/main/photo/blackroadwhite.png">
@@ -1082,6 +1094,39 @@ function grpse(x){
           
           }
           </script>
+          
+          <script>
+          let modal;
+          
+          function showTingle() {
+          modal = new tingle.modal({
+          footer: false,
+          closeMethods: ['overlay', 'button', 'escape'],
+          closeLabel: "Close"
+          });
+          
+          modal.setContent(`
+          <h2>Choose an Option</h2>
+          <div class="btnn-group">
+          <button onclick="location.href='devs.html'"> Development Resources </button>
+          <button onclick="shfet()"> Share Option </button>
+          <button onclick="location.href='export.html'"> Export </button>
+          <button onclick="printe()"> Print </button>
+          <button onclick="location.href='reset.html'"> Factory Reset </button>
+          <button onclick="location.href='blackread/index.html'"> ReadFile </button>
+          <button onclick="location.href='logout.html'"> LogOut </button>
+          </div>
+          `);
+          
+          modal.open();
+          }
+          
+          
+          
+          
+          </script>
+          
+          
         <center>
         <img class="dbimg" id="parr" src="https://raw.githubusercontent.com/microintel/endgram/main/photo/microintel-black-small.png">
         </center>
