@@ -1108,13 +1108,13 @@ function grpse(x){
           modal.setContent(`
           <h2>Choose an Option</h2>
           <div class="btnn-group">
-          <button onclick="location.href='devs.html'"> Development Resources </button>
+          <button onclick="location.href='devs.html';modal.close()"> Development Resources </button>
           <button onclick="shfet()"> Share Option </button>
-          <button onclick="location.href='export.html'"> Export </button>
+          <button onclick="location.href='export.html';modal.close()"> Export </button>
           <button onclick="modal.close();printe()"> Print </button>
-          <button onclick="location.href='reset.html'"> Factory Reset </button>
-          <button onclick="location.href='blackread/index.html'"> ReadFile </button>
-          <button onclick="location.href='logout.html'"> LogOut </button>
+          <button onclick="location.href='reset.html';modal.close()"> Factory Reset </button>
+          <button onclick="location.href='blackread/index.html';modal.close()"> ReadFile </button>
+          <button onclick="location.href='logout.html';modal.close()"> LogOut </button>
           </div>
           `);
           
