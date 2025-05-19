@@ -557,25 +557,20 @@
    
    
    function srh(con, term) {
-     var cont = document.getElementById(con);
-   var items = cont.getElementsByClassName('child');
-   
-   for (var i = 0; i < items.length; i++) {
-   var conte = items[i].innerHTML.toLowerCase();
-   
-   if (conte.includes(term.toLowerCase())) 
-      {
-   items[i].style.display = "block";
-   }
-   else {
-   items[i].style.display = "none";
-           }
-   }
-   
-   let rx=getcls("R");
-   let bx=getcls("B");
-   rebocc([rx+bx,rx,bx],grph);
- }
+  const cont = document.getElementById(con);
+  const items = cont.getElementsByClassName('child');
+  const keywords = term.toLowerCase().trim().split(/\s+/);
+
+  for (let i = 0; i < items.length; i++) {
+    const conte = items[i].innerText.toLowerCase();
+    const match = keywords.every(word => conte.includes(word));
+    items[i].style.display = match ? "block" : "none";
+  }
+
+  let rx = getcls("R");
+  let bx = getcls("B");
+  rebocc([rx + bx, rx, bx], grph);
+}
    
    
    
