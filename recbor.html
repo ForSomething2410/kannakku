@@ -147,6 +147,9 @@
          }
          .sumt div:nth-child(3){
          color:#dc3545;
+         
+         }
+         .sumt div:last-child{
          border-bottom:0px solid black;
          }
          
@@ -270,6 +273,29 @@
          justify-content:center;
          align-items:center;
          }
+         
+         .pp{
+           width:95%;
+           text-align:center;
+          
+         }
+         .pp th{
+         border-bottom:1px solid grey;
+         }
+         .pp th,.pp td{
+         border-right:1px solid grey;
+         }
+         .pp th:nth-child(1),.pp th:nth-child(2),.pp td:nth-child(1),.pp td:nth-child(2){
+         color:#28a745;
+         }
+         .pp th:nth-child(3),.pp th:nth-child(4),.pp td:nth-child(3),.pp td:nth-child(4){
+         color:#dc3545;
+         }
+         
+         .pp th:last-child,.pp td:last-child{
+         border-right:0px solid grey;
+         }
+         
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     
@@ -316,6 +342,22 @@
           <div>
           <font> Borrowings</font> <font id="fsumB"> 0</font>
           </div>
+          
+          <div>
+           <table class="pp">
+            <tr>
+            <th> Rec Per</th><th>Rec Prof</th><th>Bor Per</th><th>Bor Prof</th>
+            </tr>
+            <tr id="datrb">
+             <td>0</td><td>0</td><td>0</td><td>0</td>
+            </tr>
+            </table>
+           </div>
+          </div>
+          
+          
+          
+          
         </div>
         <br>
         <canvas id="reboc" width="200" height="150"></canvas>
@@ -356,6 +398,7 @@
    let bx=getcls("B");
    rebocc([rx+bx,rx,bx],grph);
    vgh();
+   perpro();
    
    }
    };
@@ -438,6 +481,7 @@
    let rx=getcls("R");
    let bx=getcls("B");
    dlastd();
+   perpro();
    rebocc([rx+bx,rx,bx],grph);
    tx.oncomplete = () => {
    display();
@@ -513,6 +557,7 @@
    tx.oncomplete = () => {
    Swal.fire('Deleted!', 'The record removed.', 'success');
    dlastdrem();
+   perpro();
    };
    
    tx.onerror = () => {
@@ -570,6 +615,9 @@
   let rx = getcls("R");
   let bx = getcls("B");
   rebocc([rx + bx, rx, bx], grph);
+  
+  
+  perpro();
 }
    
    
@@ -597,7 +645,7 @@
    let rx=getcls("R");
    let bx=getcls("B");
    rebocc([rx+bx,rx,bx],grph);
-   
+   perpro();
    }
    
    
@@ -762,30 +810,46 @@
    let rx=getcls("R");
    let bx=getcls("B");
    rebocc([rx+bx,rx,bx],grph);
-   
+   perpro();
    }
    });
    
+   }
    
+   function perpro(){
+   let dd=document.getElementById("datrb");
+   let pert=0;
+   let prot=0;
+   let bper=0;
+   let bpro=0;
+   document.querySelectorAll(".des").forEach((x)=>{
+   let tex= x.innerHTML;
+   let ppp= x.parentNode.style;
+   let par= x.parentNode.children[0].children[1].innerText;
+   let typ= x.parentNode.children[0].children[3].innerText;
+   if((tex.toLowerCase().includes("per") & typ==="R") && (ppp.display!=="none")){
+   pert+=parseInt(par);
    
+   }else if((tex.toLowerCase().includes("pro") & typ==="R") && (ppp.display!=="none")){
+   prot+=parseInt(par);
+   }
+   else if((tex.toLowerCase().includes("pro") & typ==="B") && (ppp.display!=="none")){
+   bpro+=parseInt(par);
+   }
+   else if((tex.toLowerCase().includes("per") & typ==="B") && (ppp.display!=="none")){
+   bper+=parseInt(par);
+   }
+   });
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+   dd.children[0].innerText=pert;
+   dd.children[1].innerText=prot;
+   dd.children[2].innerText=bper;
+   dd.children[3].innerText=bpro;
    
    }
+   
+   
+   
    </script>
 </body>
 </html>
