@@ -351,6 +351,21 @@ border:none;
     border:1.5px solid var(--b);
     }
     
+    .dsert{
+    display:flex;
+    width:90%;
+    justify-content:space-between;
+    
+    }
+    
+    .dsert input,.dsert button{
+    width:fit-content;
+    background-color:var(--w);
+    color:var(--b);
+    border:2px solid var(--bor);
+    border-radius:7px;
+    }
+    
     
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tingle.js@0.15.3/dist/tingle.min.css" />
@@ -474,7 +489,9 @@ border:none;
             
           </div>
 
-
+    <div style="display:none;margin:0px;padding:0px;" class="dsert" id="ddsert">
+      <input id="frd" type="date" value="2025-05-01"><input id="tod" type="date" value="2025-05-05"><button onclick="filbydate('frd','tod','dateColumn')"> Filter</div>
+    </div>
        <div id="catdets">
          <div class="head">
           <i onclick="shfei('catdets')" class="fa-solid fa-share njk" style="color:lightgreen;display:none;"></i>
@@ -590,12 +607,29 @@ border:none;
        <br><br>
           <script>
           
+          function filbydate(f, t, c) {
+          let from = document.getElementById(f).value;
+          let toda = document.getElementById(t).value;
+         // alert(document.getElementById("ppr").innerHTML);
+          document.querySelectorAll(".tdate").forEach((x) => {
+          let da = x.innerHTML.trim();
           
+          if (da >= from && da <= toda) {
+          x.parentNode.style.display = "flex";
+          x.parentNode.style.backgroundColor="#027aff";
+          
+          } else {
+          x.parentNode.style.display = "none";
+          x.parentNode.style.backgroundColor="var(--b)";
+          }
+          });
+          
+          updateTotals();
+          }
           
         async function fetDatU() {
         let addt = null;
         
-        // Inject CSS for animation
         const style = document.createElement('style');
         style.innerHTML = `
         .bell-container {
@@ -1113,6 +1147,7 @@ function grpse(x){
           <button onclick="location.href='export.html';modal.close()"> Export </button>
           <button onclick="modal.close();printe()"> Print </button>
           <button onclick="location.href='reset.html';modal.close()"> Factory Reset </button>
+          <button onclick="sssh()"> Show Date Search </button>
           
           <button onclick="location.href='https://microintel.github.io/endgram/file/coding.html';modal.close()"> Statements</button>
           <button onclick="location.href='blackread/index.html';modal.close()"> ReadFile </button>
@@ -1123,6 +1158,13 @@ function grpse(x){
           `);
           
           modal.open();
+          }
+          
+          function sssh(){
+          document.getElementById("ddsert").style.display="flex";
+          modal.close();
+          location.href="#ddsert";
+          
           }
           
           
