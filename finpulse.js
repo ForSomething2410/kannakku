@@ -339,7 +339,8 @@ const r = indexedDB.open("black");
         function theame(x){
         if(x=='b'){
         
-        document.getElementById(x).src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=FFFFFF";
+        document.getElementsByClassName("nknth")[0].src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=FFFFFF";
+      // .src="https://img.icons8.com/?size=100&id=45475&format=png&color=1A1A1A";
         document.getElementById("mimg").src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF";
         document.getElementById("tttim").src="https://raw.githubusercontent.com/microintel/endgram/main/photo/blackroadwhite.png";
         
@@ -354,7 +355,7 @@ const r = indexedDB.open("black");
         if(x=='w'){
          
         document.getElementById("mimg").src="https://img.icons8.com/?size=100&id=36389&format=png&color=000000";
-        document.getElementById(x).src="https://img.icons8.com/?size=100&id=45475&format=png&color=1A1A1A";
+        document.getElementsByClassName("nknth")[0].src="https://img.icons8.com/?size=100&id=45475&format=png&color=1A1A1A";
         document.getElementById("tttim").src="https://raw.githubusercontent.com/microintel/endgram/main/photo/blackroadred1.png";
         document.documentElement.style.setProperty('--w',"#FFFFFF");
         document.documentElement.style.setProperty('--b',"black");
@@ -363,7 +364,9 @@ const r = indexedDB.open("black");
         //document.documentElement.style.setProperty('--', );
        // document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=000000";
         document.getElementById(x).id="b";
+        
         }
+        localStorage.setItem("theme",x);
         }
         
         
