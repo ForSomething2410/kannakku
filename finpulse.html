@@ -489,7 +489,7 @@ border:none;
             
           </div>
 
-    <div style="display:none;margin:0px;padding:0px;" class="dsert" id="ddsert">
+    <div style="display:flex;margin:0px;padding:0px;" class="dsert" id="ddsert">
       <input id="frd" type="date" value="2025-05-01"><input id="tod" type="date" value="2025-05-05"><button onclick="filbydate('frd','tod','dateColumn')"> Filter</div>
     </div>
        <div id="catdets">
@@ -610,17 +610,25 @@ border:none;
           function filbydate(f, t, c) {
           let from = document.getElementById(f).value;
           let toda = document.getElementById(t).value;
-         // alert(document.getElementById("ppr").innerHTML);
+          let ddes = document.getElementById("seait").value.toLowerCase().trim();
+          
+          const isSe = ddes.length > 0;
+          
           document.querySelectorAll(".tdate").forEach((x) => {
           let da = x.innerHTML.trim();
+          let row = x.parentNode;
+          let des = row.children[2].innerText.toLowerCase();
+          let ppl = row.parentNode.parentNode.style.display;
           
-          if (da >= from && da <= toda) {
-          x.parentNode.style.display = "flex";
-          x.parentNode.style.backgroundColor="#027aff";
+          let match = da >= from && da <= toda;
+          let matchS = !isSe || des.includes(ddes);
           
+          if (match && matchS && ppl !== "none") {
+          row.style.display = "flex";
+          row.style.backgroundColor = "#027aff";
           } else {
-          x.parentNode.style.display = "none";
-          x.parentNode.style.backgroundColor="var(--b)";
+          row.style.display = "none";
+          row.style.backgroundColor = "var(--b)";
           }
           });
           
