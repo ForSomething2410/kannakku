@@ -1,0 +1,195 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Equity</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <style>
+   
+    body {
+      background-color:#704214;
+      margin: 0;
+      padding: 16px;
+      font-family: 'Inter', sans-serif;
+      color: #111827;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      position:sticky;
+      background-color:#704214;
+      top:0;
+      padding:5px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+      color: white;
+    }
+
+   
+
+    .circle-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .circle-icon:hover {
+      background-color: #d1d5db;
+    }
+
+    .com {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .box {
+      background-color: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    
+
+    .box p {
+      margin: 0 0 10px 0;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      color: #374151;
+    }
+
+    .box p:first-child {
+      font-weight: 600;
+      font-size:1.5rem;
+      margin-bottom: 12px;
+      color: #111827;
+      
+    }
+    
+    .box p:nth-child(2) {
+    font-weight: 600;
+    font-size:1.1rem;
+    
+    }
+    
+
+    .box p:last-child {
+      margin-bottom: 0;
+      display:flex;
+      justify-content:space-around;
+    }
+    
+    .box p:last-child i{
+    font-size:1rem;
+    }
+    
+    .box p:last-child i:first-child{
+    color:blue;
+    }
+    
+    .box p:last-child i:last-child{
+    color:#532915;
+    }
+    .updel{
+      font-size:1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div onclick="location.href='index.html'" class="circle-icon">
+        <i class="fas fa-home"></i>
+      </div>
+      <h3>Equity <span>Management</span></h3>
+      <div class="circle-icon">
+        <i class="fas fa-plus"></i>
+      </div>
+    </header>
+
+    <div id="comm" class="com">
+      <section class="box">
+        <p>Pranav.ptd</p>
+        <p><span>Invested</span><span>₹2,856</span></p>
+        <p><span>Date</span><span>24-03-2005</span></p>
+        <p><span>Shares</span><span>1,065 × ₹23</span></p>
+        <p><span>Growth</span><span>₹23 (2.1%)</span></p>
+        <p><i> </i> <i></i> </p>
+      </section>
+
+      <section class="box">
+        <p>Dheenu.inc</p>
+        <p><span>Invested</span><span>₹2,856</span></p>
+        <p><span>Date</span><span>24-03-2005</span></p>
+        <p><span>Shares</span><span>1,065 × ₹23</span></p>
+        <p><span>Growth</span><span>₹23 (2.1%)</span></p>
+        <p><i> </i> <i></i> </p>
+      </section>
+
+      <section class="box">
+        <p>NKN.Inc</p>
+        <p><span>Invested</span><span>₹2,856</span></p>
+        <p><span>Date</span><span>24-03-2005</span></p>
+        <p><span>Shares</span><span>1,065 × ₹23</span></p>
+        <p><span>Growth</span><span>₹23 (2.1%)</span></p>
+        <p><i> </i> <i></i> </p>
+      </section>
+      
+      <section class="box">
+      <p>ABCD Dady.com</p>
+      <p><span>Invested</span><span>₹2,856</span></p>
+      <p><span>Date</span><span>24-03-2005</span></p>
+      <p><span>Shares</span><span>1,065 × ₹23</span></p>
+      <p><span>Growth</span><span>₹23 (2.1%)</span></p>
+      <p><i> </i> <i></i> </p>
+      </section>
+      
+      <section class="box">
+      <p>ABCD.inc</p>
+      <p><span>Invested</span><span>₹2,856</span></p>
+      <p><span>Date</span><span>24-03-2005</span></p>
+      <p><span>Shares</span><span>1,065 × ₹23</span></p>
+      <p><span>Growth</span><span>₹23 (2.1%)</span></p>
+      <p><i> </i> <i></i> </p>
+      </section>
+      
+      <section class="box">
+      <p>ABCD.ptf</p>
+      <p><span>Invested</span><span>₹2,856</span></p>
+      <p><span>Date</span><span>24-03-2005</span></p>
+      <p><span>Shares</span><span>1,065 × ₹23</span></p>
+      <p><span>Growth</span><span>₹23 (2.1%)</span></p>
+      <p><i> </i> <i></i> </p>
+      </section>
+    </div>
+  </div>
+  
+<script type="text/javascript">
+
+document.querySelectorAll(".box").forEach((x)=>{
+console.log(document.getElementById("comm").innerHTML);
+x.children[5].children[0].className="fas fa-edit";
+x.children[5].children[1].className="fas fa-trash";
+});
+
+</script>
+</body>
+</html>

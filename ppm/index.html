@@ -1,1 +1,72 @@
-jss
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Asset Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Indie Flower', cursive;
+      background-color: white;
+      margin: 24px;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.5rem;
+      border-bottom: 2px solid black;
+      padding-bottom: 4px;
+      width: max-content;
+      margin-bottom: 24px;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 1.125rem;
+    }
+    .row:last-child {
+      margin-bottom: 0;
+    }
+    .value-container {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .arrow {
+      font-size: 1.5rem;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h3 onclick="location.href='../finpulse.html'"> < Back </h3>
+    <h1>Asset Management</h1>
+    <div onclick="location.href='equity.html'" class="row">
+      <span>Equity</span>
+      <div class="value-container">
+        <span>12345 rs</span>
+        <span class="arrow">&gt;</span>
+      </div>
+    </div>
+    <div onclick="alert('soon')" class="row">
+      <span>material</span>
+      <div class="value-container">
+        <span>2345 rs</span>
+        <span class="arrow">&gt;</span>
+      </div>
+    </div>
+    <div onclick="alert('soon')" class="row">
+      <span>cash flow</span>
+      <div class="value-container">
+        <span>2356 rs</span>
+        <span class="arrow">&gt;</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
