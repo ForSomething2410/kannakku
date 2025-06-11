@@ -856,8 +856,9 @@ const r = indexedDB.open("black");
         a = "#87CEEB";
         }
         
-        document.body.style.borderTop = `10px solid ${a}`;
+        // document.body.style.borderTop = `10px solid ${a}`;
         
+        chthco(a);
         let c = b;
         b = a;
         a = c;
@@ -866,6 +867,20 @@ const r = indexedDB.open("black");
         }
         
         gleE();
+        
+        
+        
+        
+        function chthco(c) {
+        let m = document.querySelector('meta[name="theme-color"]');
+        if (!m) {
+        m = document.createElement('meta');
+        m.name = 'theme-color';
+        document.head.appendChild(m);
+        }
+        m.setAttribute('content', c);
+        
+        }
 
 
 
