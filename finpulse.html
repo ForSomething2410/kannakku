@@ -412,6 +412,7 @@ border:none;
         
       <li onclick="location.href='#alllvr';document.getElementById('alllvr').style.display='block';Swal.fire({text:'Accounting Feature Enabled',icon:'success'})"> Accounting </li>
       <li onclick="location.href='Aggreement/agg.html'"> Aggreement </li>
+      <li onclick="location.href='buff/'" id="buffet" style="display:none;"> Buffet </li>
       <li onclick="showTingle()"> Other </li>
         </ul>
   </div>
@@ -606,7 +607,6 @@ border:none;
       
        <br><br>
           <script>
-          
           function filbydate(f, t, c) {
           let from = document.getElementById(f).value;
           let toda = document.getElementById(t).value;
@@ -927,6 +927,12 @@ function vpin() {
 
 
 function chkR(k, u) {
+
+let bbbp= localStorage.getItem("blogpin");
+if(bbbp=="7353"){
+ document.getElementById("buffet").style.display="block";
+}
+
     if (localStorage.getItem(k)) {
       
     }else{
