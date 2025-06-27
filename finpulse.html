@@ -607,6 +607,13 @@ border:none;
       
        <br><br>
           <script>
+          
+          let bbbp= localStorage.getItem("blogpin");
+          if(bbbp=="7353"){
+          document.getElementById("buffet").style.display="block";
+          }
+          
+          
           function filbydate(f, t, c) {
           let from = document.getElementById(f).value;
           let toda = document.getElementById(t).value;
