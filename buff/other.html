@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>other</title>
+  <title>saving</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <style>
     body {
@@ -120,7 +120,7 @@
     }
     
     .row span:first-child {
-    color: #a0e49d;
+    color:red;
     font-weight: 500;
     }
     
@@ -188,11 +188,56 @@
     text-align: center;
     color: #8aff8a;
     }
+    
+    .swal2-input {
+    width: 90%;
+    box-sizing: border-box;
+    background-color: white;
+    color: black;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 18px;
+    margin: 6px auto;
+    display: block;
+    }
+    
+    .swal2-input::placeholder {
+    color: black;
+    }
+    
+    .swal2-popup {
+    background-color: white;
+    color: #eee;
+    }
+    
+    .swal2-title {
+    color: black;
+    }
+    
+    .trh{
+     display: flex;
+     background: #1a1a1a;
+     justify-content: space-between;
+     align-items:center;
+     margin: 1px;
+     border: 1px solid #333;
+     padding:9px;
+     color:red;
+     border-radius:0.375rem;
+     
+    }
+    
+    .trh font:last-child{
+    font-size:1.6rem;
+    }
+    
+    
   </style>
 </head>
 <body>
   <header class="hd">
-    <h1> Others</h1>
+    <h1> Other </h1>
     
   </header>
 <hr>
@@ -210,8 +255,11 @@
 
 <br>
 
-  <section class="sec">
-    <h2> Other Transaction</h2>
+  <section class="sec" id="allsav">
+    <div class="trh">
+    <font> Expese 12345</font> <font onclick="addDiv()"> + </font>
+    </div>
+    <br>
     <div class="box">
       <div class="row"><span>1234</span><span>ten</span></div>
       <div class="txt">iaajjxzjzjzjsjjdjdjdjejewjwjw wjwuwjwjwuwu jwhwnzznzjz jsueueuei33uejsjsh shshsjs sidjdjdjddjjddjsjdjdjsjdjsjsjsnsndnjzxjxjdjjddjdjdndnnddn</div>
@@ -222,16 +270,84 @@
     <div class="txt">iaajjxzjzjzjsjjdjdjdjejewjwjw wjwuwjwjwuwu jwhwnzznzjz jsueueuei33uejsjsh shshsjs sidjdjdjddjjddjsjdjdjsjdjsjsjsnsndnjzxjxjdjjddjdjdndnnddn</div>
     </div>
     
-    <div class="box">
-    <div class="row"><span>1234</span><span>ten</span></div>
-    <div class="txt">iaajjxzjzjzjsjjdjdjdjejewjwjw wjwuwjwjwuwu jwhwnzznzjz jsueueuei33uejsjsh shshsjs sidjdjdjddjjddjsjdjdjsjdjsjsjsnsndnjzxjxjdjjddjdjdndnnddn</div>
-    </div>
     
-    <div class="box">
-    <div class="row"><span>1234</span><span>ten</span></div>
-    <div class="txt">iaajjxzjzjzjsjjdjdjdjejewjwjw wjwuwjwjwuwu jwhwnzznzjz jsueueuei33uejsjsh shshsjs sidjdjdjddjjddjsjdjdjsjdjsjsjsnsndnjzxjxjdjjddjdjdndnnddn</div>
-    </div>
     
   </section>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+<script type="text/javascript">
+
+async function addDiv() {
+  const { value: v } = await Swal.fire({
+  title: 'Enter',
+  html:
+  `<input id="a" type="number" class="swal2-input" placeholder="Amount">` +
+  `<input id="d" type="date" class="swal2-input">` +
+  `<input id="m" type="text" class="swal2-input" placeholder=" Company Name">`,
+  focusConfirm: false,
+  showCancelButton: false,
+  showCloseButton:true,
+  preConfirm: () => {
+  const a = document.getElementById('a').value;
+  const d = document.getElementById('d').value;
+  const m = document.getElementById('m').value;
+  
+  if (!a || !d || !m) {
+  Swal.showValidationMessage('All required');
+  return false;
+  }
+  return { a, d, m };
+  }
+  });
+  
+  if (!v) return;
+  
+  const e = document.createElement('div');
+  e.innerHTML = `
+  <div class="box">
+  <div class="row"><span> ${v.a}</span><span>${v.d}</span></div>
+  <div class="txt"> <font> ${v.m}</font>  </div>
+  </div>
+  `;
+  document.getElementById('allsav').appendChild(e);
+  }
+  
+
+function radd() {
+  let d = []
+  document.querySelectorAll('.box').forEach(b => {
+    let s = b.querySelectorAll('.row span')
+    let t = b.querySelector('.txt')?.textContent || ''
+    d.push({ a: s[0]?.textContent || '', b: s[1]?.textContent || '', c: t })
+  })
+  return d
+}
+
+function wadd(j) {
+  j.forEach(i => {
+    let b = document.createElement('div')
+    b.className = 'box'
+    let r = document.createElement('div')
+    r.className = 'row'
+    let s1 = document.createElement('span')
+    s1.textContent = i.a
+    let s2 = document.createElement('span')
+    s2.textContent = i.b
+    r.appendChild(s1)
+    r.appendChild(s2)
+    let t = document.createElement('div')
+    t.className = 'txt'
+    t.textContent = i.c
+    b.appendChild(r)
+    b.appendChild(t)
+    document.getElementById('allsav').appendChild(b);
+  })
+}
+
+
+let x=JSON.stringify(radd());
+let cf= JSON.parse(x);
+wadd(cf);
+</script>
 </body>
 </html>
