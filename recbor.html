@@ -191,7 +191,7 @@
          border-bottom:2px solid black !important;
          }
          
-         .bi-house , .bi-printer,#hhh{
+         .bi-house , .bi-printer,#hhh,#nknnc{
          display:none !important;
          }
          
@@ -296,6 +296,41 @@
          border-right:0px solid grey;
          }
          
+         .des{
+         display:flex;
+         flex-direction:column;
+         width:100%;
+         }
+         
+         .des span:nth-child(1) {
+         color: brown;
+         width:100%;
+         border-bottom:1px solid grey;
+         }
+         
+         #nknnc{
+         display:flex;
+         width:100%;
+         border-radius:12px;
+         
+         }
+         #nknnc table{
+         border:1px solid red;
+         margin:10px;
+         width:95%;
+         background-color:#333;
+         border-radius:10px;
+         }
+         #nknnc th,#nknnc td{
+         border:1px solid black;
+         }
+         
+         
+         .swit{
+         
+         display:flex;
+         justify-content:space-evenly;
+         }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     
@@ -322,10 +357,18 @@
         </select>
         
         </div>
+        <div class="swit">
         
         <div class="form-check form-switch mt-3">
         <input class="form-check-input" type="checkbox" id="toggleSwitch">
         <label class="form-check-label" for="toggleSwitch" id="switchLabel"> Graph </label>
+        </div>
+        
+        <div  class="form-check form-switch mt-3">
+        <label class="form-check-label" for="toggleSwitch" > Sumary </label>
+        <input  onclick="hisu(this)" id="none" class="form-check-input" type="checkbox">
+        </div>
+        
         </div>
         <br>
         
@@ -361,8 +404,9 @@
         </div>
         <br>
         <canvas id="reboc" width="200" height="150"></canvas>
-        <br>
-        
+        <br><center>
+        <div id="nknnc" style="display:none;">
+        </div></center>
         <div id="rebb" class="recb">
         
         </div>
@@ -379,6 +423,21 @@
     <script src="lastsen.js" type="text/javascript"></script>
     
    <script>
+   
+   
+   function hisu(x){
+   document.getElementById("nknnc").style.display="none";
+   if(x.id==="none"){
+   document.getElementById("nknnc").style.display="flex";
+   x.id="flex";
+   }else{
+   document.getElementById("nknnc").style.display="none";
+   x.id="none";
+   }
+   
+   }
+   
+   
   let grph=true;
    let rbdada = { rbcon: "", rtot: 0, btot: 0 };
    
@@ -417,6 +476,7 @@
    html: `
    <input type='number' id='a' class='swal2-input' placeholder='Amount'><br><br>
    <input type='date' id='dt' class='swal2-input'><br><br>
+   <input type='text' id='pers' class='swal2-input' placeholder='Person Name'><br><br>
    <input type='text' id='desc' class='swal2-input' placeholder='Description'><br><br>
    <select id='t' class='swal2-select'>
    <option value='R'>Receivable</option>
@@ -431,17 +491,18 @@
    let dt = document.getElementById("dt").value;
    let desc = document.getElementById("desc").value.trim();
    let t = document.getElementById("t").value;
+   let pers= document.getElementById("pers").value.trim();
    
-   if (!a || !dt || !desc) {
+   if (!a || !dt || !desc || !pers) {
    Swal.showValidationMessage("All fields are required!");
    return false;
    }
    
-   return { a, dt, desc, t };
+   return { a, dt, desc, t,pers};
    }
    }).then(result => {
    if (result.isConfirmed) {
-   const { a, dt, desc, t } = result.value;
+   const { a, dt, desc, t,pers } = result.value;
    const rb = indexedDB.open("black");
    
    rb.onsuccess = e => {
@@ -458,7 +519,7 @@
    <font class="${t}">${a}</font> <font>${dt}</font> <font>${t}</font>
    <i style="color:${ccc};" class="bi bi-trash" onclick="remRB(this)"></i>
    </div>
-   <div class="des">${desc}</div>
+   <div class="des"> <span>${pers}</span> <span>${desc}</span></div>
    `;
    
    if (inel.firstChild) {
@@ -749,13 +810,14 @@
   
    let gamt  = g.children[1].innerText;
    let gdate  = g.children[2].innerText;
-   let gdes  = g.parentNode.children[1].innerHTML;
-   
+   let gdes  = g.parentNode.children[1].children[1].innerText;
+   let gper  = g.parentNode.children[1].children[0].innerText;
    Swal.fire({
    title: 'Lend Update',
    html:
    `<input id="a" type="number" class="swal2-input" placeholder="${gamt}" value="${gamt}"><br><br>
    <input type="date" id="b" class="swal2-input" placeholder="${gdate}" value="${gdate}"><br><br>
+   <input id="cx" class="swal2-input" placeholder="${gper}" value="${gper}"><br><br>
    <input id="c" class="swal2-input" placeholder="${gdes}" value="${gdes}"><br><br>`,
    focusConfirm: false,
    showCloseButton:true,
@@ -763,20 +825,21 @@
    let a = document.getElementById('a').value;
    let b = document.getElementById('b').value;
    let c = document.getElementById('c').value;
-   if (!a || !b || !c) {
+   let cx = document.getElementById('cx').value;
+   if (!a || !b || !c || !cx) {
    Swal.showValidationMessage('Fill all fields');
    return false;
    }
-   return { a, b, c };
+   return { a, b, c, cx };
    }
    }).then(r => {
    if (r.isConfirmed) {
-   let { a, b, c } = r.value;
+   let { a, b, c, cx } = r.value;
    
    g.children[1].innerText=a;
    g.children[2].innerText=b;
-   g.parentNode.children[1].innerHTML=c;
-   
+   g.parentNode.children[1].children[0].innerHTML=cx;
+   g.parentNode.children[1].children[1].innerHTML=c;
    let rb = indexedDB.open("black",2);
    
    rb.onsuccess = e => {
@@ -839,16 +902,54 @@
    else if((tex.toLowerCase().includes("per") & typ==="B") && (ppp.display!=="none")){
    bper+=parseInt(par);
    }
-   });
+   }
+   );
    
    dd.children[0].innerText=pert;
    dd.children[1].innerText=prot;
    dd.children[2].innerText=bper;
    dd.children[3].innerText=bpro;
    
+   disnkn();
    }
    
    
+   function disnkn() {
+   const result = {};
+   document.querySelectorAll('.head').forEach((headDiv) => {
+   const desDiv = headDiv.nextElementSibling;
+   const person = desDiv.querySelector('span')?.innerText.trim();
+   const amountFont = headDiv.querySelector('font');
+   const amount = parseFloat(amountFont?.innerText.trim());
+   const type = amountFont?.className.trim();
+   if (person && !isNaN(amount) && (type === 'B' || type === 'R')) {
+   if (!result[person]) result[person] = { B: 0, R: 0 };
+   result[person][type] += amount;
+   }
+   });
+   
+   let html = `
+   <table cellspacing="0" cellpadding="5">
+   <tr>
+   <th>Person</th>
+   <th style="color:red;">B</th>
+   <th style="color:green;"> R </th>
+   </tr>
+   `;
+   
+   for (const [person, { B, R }] of Object.entries(result)) {
+   html += `
+   <tr>
+   <td>${person}</td>
+   <td style="color:red;">${B.toFixed(1)}</td>
+   <td style="color:green;">${R.toFixed(1)}</td>
+   </tr>
+   `;
+   }
+   
+   html += `</table>`;
+   document.getElementById("nknnc").innerHTML = html;
+   }
    
    </script>
 </body>
