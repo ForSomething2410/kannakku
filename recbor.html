@@ -11,11 +11,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
     <style>
+    
+    :root{
+    --bb:#000;
+    --bl:black;
+    --box:black;
+    --wh:white;
+    }
         body { 
         font-family:"Ubuntu",sans-serif;
           margin:11px;                                  
-         background:#000;
-        color:white;
+         background:var(--bb);
+        color:var(--wh);
          }
         .c {
          width:100%;
@@ -31,7 +38,7 @@
          padding: 10px;
           margin: 10px 0; 
         border-radius:10px;
-        border:1px solid black;
+        border:1px solid var(--wh);
         
         }
         input{
@@ -53,7 +60,7 @@
          .ass{
          display:flex;
          width:98%;
-         background-color:#000;
+         background-color:var(--bb);
          justify-content:space-around;
          align-items:center;
          }
@@ -61,16 +68,16 @@
          width:40%;
          }
          .ass i{
-         color:white;
+         color:var(--wh);
          font-size:2.8rem;
-         background-color:black;
+         background-color:var(--bb);;
          border-radius:50px;
          border:1.5px solid grey;
          }
          
          .recb,.child{
          width:98%;
-         color:white;
+         color:var(--wh);
          display:flex;
          flex-direction:column;
          flex-wrap:wrap;
@@ -85,8 +92,8 @@
          }
          
          .recb .child{
-         background-color:#222;
-         border:1.5px solid black;
+         background-color:var(--box);
+         border:1.5px solid var(--wh);
          border-radius:10px;
          }
          .recb .child .head{
@@ -120,15 +127,15 @@
          align-items:center;
          border-radius:20px;
          padding:3px;
-         
-         background-color:#333;
+         border:1px solid var(--wh);
+         background-color:var(--box);
          }
          .sumt div{
          width:98%;
          display:flex;
          justify-content:space-around;
          align-items:center;
-         border-bottom:2px solid black;
+         border-bottom:2px solid var(--wh);
          gap:6px;
          
          padding:5px;
@@ -150,7 +157,7 @@
          
          }
          .sumt div:last-child{
-         border-bottom:0px solid black;
+         border-bottom:0px solid var(--bl);
          }
          
          .bi-house{
@@ -318,16 +325,16 @@
          border:1px solid red;
          margin:10px;
          width:95%;
-         background-color:#333;
+         background-color:var(--box);
          border-radius:10px;
          }
          #nknnc th,#nknnc td{
-         border:1px solid black;
+         border:1px solid grey;
          }
          
          #nknnc th{
          font-size:1.1rem;
-         border-bottom:1px solid white;
+         border-bottom:1px solid var(--wh);
          }
          
          #nknnc tr:hover{
@@ -432,6 +439,30 @@
     <script src="lastsen.js" type="text/javascript"></script>
     
    <script>
+   function theaX(){
+   let x= localStorage.getItem("theme");
+   if(x=='b'){
+   
+   
+   document.documentElement.style.setProperty('--bb',"black");
+   document.documentElement.style.setProperty('--bl',"black");
+   document.documentElement.style.setProperty('--box',"black");
+   document.documentElement.style.setProperty('--wh',"white");
+   
+   }
+   if(x=='w'){
+   
+   
+   document.documentElement.style.setProperty('--bb',"white");
+   document.documentElement.style.setProperty('--bl',"white");
+   document.documentElement.style.setProperty('--box',"white");
+   document.documentElement.style.setProperty('--wh',"black");
+   
+   }
+   
+   }
+   
+   theaX();
    
    
    function hisu(x){
