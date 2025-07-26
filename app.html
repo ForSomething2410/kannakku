@@ -2,32 +2,38 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Installable PWA with Dynamic Manifest</title>
+  <title>Installable PWA</title>
 </head>
 <body>
-
-<h2 > Add App</h2>
   <input type="file" id="iconInput" accept="image/*">
   <button id="installBtn" style="display:none;">Install App</button>
 
   <script>
     let deferredPrompt;
 
+    // Listen for beforeinstallprompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       document.getElementById('installBtn').style.display = 'inline-block';
     });
 
+    // Trigger install prompt
     document.getElementById('installBtn').addEventListener('click', async () => {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+        await deferredPrompt.userChoice;
         deferredPrompt = null;
         document.getElementById('installBtn').style.display = 'none';
       }
     });
 
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+
+    // Handle icon upload and set manifest
     document.getElementById('iconInput').addEventListener('change', function (event) {
       const file = event.target.files[0];
       if (!file) return;
@@ -35,9 +41,9 @@
       const iconURL = URL.createObjectURL(file);
 
       const manifest = {
-        name: "Custom Icon App",
-        short_name: "IconApp",
-        start_url: "/",
+        name: "My Custom PWA",
+        short_name: "MyPWA",
+        start_url: ".",
         display: "standalone",
         background_color: "#ffffff",
         theme_color: "#000000",
