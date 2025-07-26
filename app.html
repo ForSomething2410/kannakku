@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Installable PWA with Dynamic Manifest</title>
+</head>
+<body>
+
+<h2 > Add App</h2>
+  <input type="file" id="iconInput" accept="image/*">
+  <button id="installBtn" style="display:none;">Install App</button>
+
+  <script>
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBtn').style.display = 'inline-block';
+    });
+
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        deferredPrompt = null;
+        document.getElementById('installBtn').style.display = 'none';
+      }
+    });
+
+    document.getElementById('iconInput').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const iconURL = URL.createObjectURL(file);
+
+      const manifest = {
+        name: "Custom Icon App",
+        short_name: "IconApp",
+        start_url: "/",
+        display: "standalone",
+        background_color: "#ffffff",
+        theme_color: "#000000",
+        icons: [
+          {
+            src: iconURL,
+            sizes: "192x192",
+            type: file.type
+          }
+        ]
+      };
+
+      const blob = new Blob([JSON.stringify(manifest)], { type: "application/json" });
+      const manifestURL = URL.createObjectURL(blob);
+
+      const old = document.querySelector('link[rel="manifest"]');
+      if (old) old.remove();
+
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestURL;
+      document.head.appendChild(link);
+    });
+  </script>
+</body>
+</html>
