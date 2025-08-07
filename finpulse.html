@@ -336,19 +336,25 @@ border:none;
     }
     .btnn-group{
     display:flex;
-    width:90%;
+    width:100%;
     flex-wrap:wrap;
-    justify-content:space-evenly;
-    align-items:center;
+    justify-content:space-around;
+    align-items:space-around;
     }
-    .btnn-group button {
+    .btnn-group button  {
     margin: 5px;
+    background-color:transparent;
     padding: 10px 15px;
-    font-size: 16px;
-    background-color:var(--w);
+    font-size: ;
     color:var(--b);
     border-radius:10px;
-    border:1.5px solid var(--b);
+    border:none;
+    }
+    
+    .btnn-group button i{
+    
+    font-size:2.3rem;
+    color:black;
     }
     
     .dsert{
@@ -397,23 +403,23 @@ border:none;
 <div class="om">
   <img width="30px" id="mimg" src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF">
     <ul class="feed ani-li">
-      <li onclick="profDis()" id="acNa">Profile</li>
+      <li onclick="profDis()" id="acNa"> <i class="fas fa-user"></i> Profile</li>
       
-      <li class="cnrr" onclick="appendC()">Add Record</li>
-      <li onclick="location.href='frotu.html'"> Frotu</li>
-      <li onclick="location.href='recbor.html'"> Lend </li>
-       <li onclick="nknsu()"> Summary </li>
+      <li class="cnrr" onclick="appendC()"> <i class="fas fa-plus-circle"></i> New Record</li>
+      <li onclick="location.href='frotu.html'"> <i class="fas fa-gift"></i> Frotu</li>
+      <li onclick="location.href='recbor.html'"> <i class="fas fa-hand-holding-usd"></i> Lend </li>
+       <li onclick="nknsu()"> <i class="fas fa-file-alt"></i> Summary </li>
         <ul class="ani-li" id="sumidd">
-          <li onclick="disexpppp('flex')"> SRC Summary</li>
-          <li onclick="nknv()"> Dispersion Exp</li>
-          <li onclick="disexpp('flex')"> Exp Summary </li>
-          <li onclick="grpse('block')">Graph Ex/bal</li>
+          <li onclick="disexpppp('flex')"> <i class="fas fa-wallet"></i> SRC Summary</li>
+          <li onclick="nknv()"> <i class="fas fa-random"></i> Dispersion</li>
+          <li onclick="disexpp('flex')"> <i class="fas fa-receipt"></i> Exp Summary </li>
+          <li onclick="grpse('block')"> <i class="fas fa-chart-bar"></i> Graph Ex/bal</li>
         </ul>
         
-      <li onclick="location.href='#alllvr';document.getElementById('alllvr').style.display='block';Swal.fire({text:'Accounting Feature Enabled',icon:'success'})"> Accounting </li>
-      <li onclick="location.href='Aggreement/agg.html'"> Aggreement </li>
-      <li onclick="location.href='buff/note.html'" id="buffet" style="display:none;"> Buffet </li>
-      <li onclick="showTingle()"> Other </li>
+      <li onclick="location.href='#alllvr';document.getElementById('alllvr').style.display='block';Swal.fire({text:'Accounting Feature Enabled',icon:'success'})"> <i class="fas fa-calculator"></i> Accounting </li>
+      <li onclick="location.href='Aggreement/agg.html'"> <i class="fas fa-file-signature"></i> Aggreement </li>
+      <li onclick="location.href='buff/note.html'" id="buffet" style="display:none;"> <i class="fas fa-archive"></i> Buffet </li>
+      <li onclick="showTingle()"> <i class="fas fa-ellipsis-h"></i> Other </li>
         </ul>
   </div>
   
@@ -569,7 +575,7 @@ border:none;
     <option value="n"> Hide Graph Option</option>
    </select>
    <canvas id="linebal" width="100px" height="40px" ></canvas>
-   
+   <div id="njkl"> </div>
    
    
     <center>
@@ -613,6 +619,82 @@ border:none;
           document.getElementById("buffet").style.display="block";
           }
           
+          function setDate2(id1, id2) {
+          const d = new Date();
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          const val = `${y}-${m}-${day}`;
+          
+          const el1 = document.getElementById(id1);
+          const el2 = document.getElementById(id2);
+          if (el1) el1.value = val;
+          if (el2) el2.value = val;
+          }
+          
+          setDate2("frd","tod");
+          
+          
+          function dChart(fdd, tdd, cid = 'categoryChart') {
+          let o = document.getElementById(cid);
+          if (o) o.remove();
+          
+          let c = document.createElement('canvas');
+          c.id = cid;
+          c.style.overflowY="auto";
+          c.style.margin="5px";
+          c.style.color = "var(--w)";
+          document.getElementById("njkl").appendChild(c);
+          
+          if (typeof Chart === 'undefined') {
+          let s = document.createElement('script');
+          s.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+          s.onload = () => dChart(fdd, tdd, cid);  // Fixed parameter passing
+          document.head.appendChild(s);
+          return;
+          }
+          
+          let t = Array.from(document.querySelectorAll('.trans')).filter(e => e.offsetParent !== null);
+          let d = {};
+          t.forEach(e => {
+          let k = e.getAttribute('data-category');
+          let v = parseFloat(e.querySelector('.mony')?.textContent || 0);
+          d[k] = (d[k] || 0) + v;
+          });
+          
+          let l = Object.keys(d);
+          let v = Object.values(d);
+          
+          // Generate unique HSL colors
+          let colors = l.map((_, i) => `hsl(${(i * 360 / l.length)}, 70%, 60%)`);
+          
+          let ctx = document.getElementById(cid).getContext('2d');
+          new Chart(ctx, {
+          type: 'pie',
+          data: {
+          labels: l,
+          datasets: [{
+          data: v,
+          backgroundColor: colors,
+          borderWidth: 1
+          }]
+          },
+          options: {
+          responsive: true,
+          plugins: {
+          legend: { position: 'bottom' },  // Move legend below
+          title: {
+          display: true,
+          text: `Showing Chart From ${fdd} to ${tdd}`
+          }
+          }
+          }
+          });
+          }
+          
+          
+          
+          
           
           function filbydate(f, t, c) {
           let from = document.getElementById(f).value;
@@ -638,8 +720,9 @@ border:none;
           row.style.backgroundColor = "var(--b)";
           }
           });
-          
+          dChart(from,toda);
           updateTotals();
+          
           }
           
           let theameC=localStorage.getItem("theme");
@@ -1170,17 +1253,17 @@ function grpse(x){
           modal.setContent(`
           <h2>Choose an Option</h2>
           <div class="btnn-group">
-          <button onclick="location.href='devs.html';modal.close()"> Development Resources </button>
-          <button onclick="shfet()"> Share Option </button>
-          <button onclick="location.href='export.html';modal.close()"> Export </button>
-          <button onclick="modal.close();printe()"> Print </button>
-          <button onclick="location.href='reset.html';modal.close()"> Factory Reset </button>
-          <button onclick="sssh()"> Show Date Search </button>
-          <button onclick="location.href='ppm/index.html';modal.close()"> Portfolio Management </button>
-          <button onclick="location.href='https://microintel.github.io/endgram/file/coding.html';modal.close()"> Statements</button>
-          <button onclick="location.href='blackread/index.html';modal.close()"> ReadFile </button>
-          <button onclick="location.href='https://microintel.github.io/endgram/file/coding.html';modal.close()"> Bills </button>
-          <button onclick="location.href='logout.html';modal.close()"> LogOut </button>
+          <button  onclick="location.href='devs.html';modal.close()"> <i class="fas fa-toolbox"></i> <i class="fas fa-laptop-code"></i> </button>
+          <button onclick="shfet()"> <i class="fa-solid fa-share-nodes"></i>  </button>  
+          <button onclick="location.href='export.html';modal.close()"> <i class="fa-solid fa-file-export"></i>  </button>
+          <button onclick="modal.close();printe()"> <i class="fa-solid fa-print"></i>  </button>
+          <button onclick="location.href='reset.html';modal.close()"> <i class="fa-solid fa-recycle"></i>  </button>
+          <button onclick="sssh()"> <i class=" fa-solid fa-calendar-day"></i>  </button>
+          <button onclick="location.href='ppm/index.html';modal.close()"> <i class="fa-solid fa-chart-pie"></i>  </button>
+          <button onclick="location.href='https://microintel.github.io/endgram/file/coding.html';modal.close()"> <i class="fa-solid fa-file-lines"></i> </button>
+          <button onclick="location.href='blackread/index.html';modal.close()"> <i class="fa-solid fa-folder-open"></i>  </button>
+          <button onclick="location.href='https://microintel.github.io/endgram/file/coding.html';modal.close()"> <i class="fa-solid fa-file-invoice"></i>  </button>
+          <button onclick="location.href='logout.html';modal.close()"> <i class="fa-solid fa-right-from-bracket"></i>  </button>
           
           </div>
           `);
