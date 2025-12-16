@@ -339,28 +339,28 @@ const r = indexedDB.open("black");
         function theame(x){
         if(x=='b'){
         
-        document.getElementsByClassName("nknth")[0].src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=FFFFFF";
+        document.getElementsByClassName("nknth")[0].src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=000000";
       // .src="https://img.icons8.com/?size=100&id=45475&format=png&color=1A1A1A";
-        document.getElementById("mimg").src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF";
-        document.getElementById("tttim").src="https://raw.githubusercontent.com/microintel/endgram/main/photo/blackroadwhite.png";
+        document.getElementById("mimg").src="https://img.icons8.com/?size=100&id=36389&format=png&color=000000";
+        document.getElementById("tttim").src="blk.gif";
         
-        document.documentElement.style.setProperty('--w',"black");
-        document.documentElement.style.setProperty('--b',"#FFFFFF");
-        document.documentElement.style.setProperty('--tbor',"white");
-        document.documentElement.style.setProperty('--back',"#1a1a1a");
+        document.documentElement.style.setProperty('--w',"#FEFEFA");
+        document.documentElement.style.setProperty('--b',"#301934");
+        document.documentElement.style.setProperty('--tbor',"#F5F5F5");
+        document.documentElement.style.setProperty('--back',"white");
         //document.documentElement.style.setProperty('--', );
        // document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=FFFFFF";
         document.getElementById(x).id="w";
         }
         if(x=='w'){
          
-        document.getElementById("mimg").src="https://img.icons8.com/?size=100&id=36389&format=png&color=000000";
-        document.getElementsByClassName("nknth")[0].src="https://img.icons8.com/?size=100&id=45475&format=png&color=1A1A1A";
-        document.getElementById("tttim").src="https://raw.githubusercontent.com/microintel/endgram/main/photo/blackroadred1.png";
-        document.documentElement.style.setProperty('--w',"#FFFFFF");
-        document.documentElement.style.setProperty('--b',"black");
-        document.documentElement.style.setProperty('--tbor',"black");
-        document.documentElement.style.setProperty('--back',"#f0f0f0");
+        document.getElementById("mimg").src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF";
+        document.getElementsByClassName("nknth")[0].src="https://img.icons8.com/?size=100&id=45475&format=png&color=FFFFFF";
+        document.getElementById("tttim").src="blk.gif";
+        document.documentElement.style.setProperty('--w',"black");
+        document.documentElement.style.setProperty('--b',"white");
+        document.documentElement.style.setProperty('--tbor',"#F5F5F5");
+        document.documentElement.style.setProperty('--back',"black");
         //document.documentElement.style.setProperty('--', );
        // document.getElementById("bori").src="https://img.icons8.com/?size=100&id=rRTAE6XGGP2Q&format=png&color=000000";
         document.getElementById(x).id="b";
