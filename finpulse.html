@@ -452,7 +452,7 @@ border:none;
         animation-timeline: view();
         transition: animation 1s ease;
         transition: box-shadow 1s ease;
-        animation-range: entry 0% cover 20%;
+        animation-range: entry 0% cover 12%;
     }
     
 </style>
@@ -483,7 +483,7 @@ border:none;
 <div class="menu" id="mmmm">
 
 <div class="om">
-  <img width="30px" id="mimg" src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF">
+  <img width="30px" style="" id="mimg" src="https://img.icons8.com/?size=100&id=36389&format=png&color=FFFFFF">
     <ul class="feed ani-li">
       <li onclick="profDis()" id="acNa"> <i class="fas fa-user"></i> Profile</li>
       
@@ -508,7 +508,7 @@ border:none;
   <img id="tttim" width="160px" height="35px" src="blk.gif">
 
 <div id="yyyy" class="theame">
-  <img onclick="theame(this.id)" id="w" class="nknth" src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=FFFFFF">
+  <img onclick="theame(this.id)" id="w" style="" class="nknth" src="https://img.icons8.com/?size=100&id=Ppe22DwOvBTF&format=png&color=FFFFFF">
   
   </div>
 
@@ -690,6 +690,86 @@ border:none;
       
        <br><br>
           <script>
+          function themeManager(action = "init") {
+          
+          const images = [
+          "https://picsum.photos/1080/1920",
+          "https://picsum.photos/1080/1920",
+          "https://picsum.photos/1080/1920",
+          "https://picsum.photos/1080/1920"
+          ];
+          
+          const randomColor = () => [
+          Math.floor(Math.random()*256),
+          Math.floor(Math.random()*256),
+          Math.floor(Math.random()*256)
+          ];
+          
+          const brightness = ([r,g,b]) =>
+          (r*299 + g*587 + b*114) / 1000;
+          
+          const applyGradient = () => {
+          const colors = Array.from({ length: 4 }, randomColor);
+          const angle = Math.floor(Math.random()*360);
+          
+          document.body.style.background =
+          `linear-gradient(${angle}deg, ${colors.map(c => `rgb(${c})`).join(",")})`;
+          
+          const avg =
+          colors.reduce((s,c)=>s+brightness(c),0) / colors.length;
+          
+          document.body.style.color = avg > 140 ? "#000" : "#fff";
+          };
+          
+          const applyImage = () => {
+          const img = images[Math.floor(Math.random()*images.length)];
+          document.body.style.background =
+          `url(${img}) center/cover no-repeat fixed`;
+          document.body.style.color = "#fff";
+          };
+          
+    
+          if (action === "init") {
+          const saved = localStorage.getItem("themeStyle");
+          if (saved === "image") applyImage();
+          if (saved === "gradient") applyGradient();
+          return;
+          }
+          
+          
+          if (action === "ask") {
+          Swal.fire({
+          title: "Choose Theme",
+          icon: "question",
+          showCancelButton: true,
+          showDenyButton: true,
+          confirmButtonText: "Gradient",
+          denyButtonText: "Image",
+          cancelButtonText: "Remove"
+          }).then((result) => {
+          
+          if (result.isConfirmed) {
+          localStorage.setItem("themeStyle", "gradient");
+          applyGradient();
+          }
+          
+          else if (result.isDenied) {
+          localStorage.setItem("themeStyle", "image");
+          applyImage();
+          }
+          
+          else if (result.dismiss === Swal.DismissReason.cancel) {
+          localStorage.removeItem("themeStyle");
+          document.body.style.background = "";
+          document.body.style.color = "";
+          }
+          
+          });
+          }
+          }
+          
+          themeManager();
+          
           
           let bbbp= localStorage.getItem("blogpin");
           if(bbbp=="7353"){
@@ -1290,9 +1370,11 @@ function grpse(x){
           </button>
           <hr style="border:none;border-top:1px solid #ddd;margin-top:15px;">
           <div style="display:flex;justify-content:space-evenly;font-family:Segoe UI;font-weight:600;">
-          <h5 onclick="location.href='logout.html'" style="color:red;margin:0;cursor:pointer;">Logout Account</h5>
+          <h5 onclick="location.href='logout.html'" style="color:red;margin:0;cursor:pointer;">Logout Accont</h5>
           <h5 style="color:#999;margin:0;">|</h5>
-          <h5 onclick="location.href='reset.html'" style="color:red;margin:0;cursor:pointer;">Delete Account</h5>
+          <h5 style="margin:0;color:red;" onclick="themeManager('ask')"> Theme</h5>
+          <h5 style="margin:0;"> | </h5>
+          <h5 onclick="location.href='reset.html'" style="color:red;margin:0;cursor:pointer;">Factory Reset</h5>
           </div>
           `,
           showConfirmButton: false,
@@ -1370,7 +1452,7 @@ function grpse(x){
           }
           
           
-          
+         
           
           </script>
           
