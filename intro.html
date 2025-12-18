@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>intro</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+}
+
+video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+
+#playBtn {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.6);
+    z-index: 10;
+}
+
+#playBtn button {
+    font-size: 18px;
+    padding: 14px 30px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<video id="video" muted playsinline>
+    <source src="bbv.mp4" type="video/mp4">
+    Your browser does not support video.
+</video>
+
+<div id="playBtn">
+    <button onclick="playVideo()">▶ Play Video</button>
+</div>
+
+<script>
+const video = document.getElementById("video");
+const playBtn = document.getElementById("playBtn");
+
+
+window.onload = () => {
+    video.play().catch(() => {
+        playBtn.style.display = "flex";
+    });
+};
+
+function playVideo() {
+    playBtn.style.display = "none";
+    video.play();
+}
+
+
+video.onended = () => {
+    window.location.href = "index.html"; 
+};
+</script>
+
+</body>
+</html>
