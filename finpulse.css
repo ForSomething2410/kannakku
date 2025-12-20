@@ -258,7 +258,8 @@ font-size:10px;
         display: none;
         width: 100%;
         gap:4px;
-        
+        margin-top:10px;
+        margin-bottom:10px;
         transition: background-color 1s ease;
         justify-content:top;
         align-items:top;
@@ -266,7 +267,6 @@ font-size:10px;
         
         #sinpp {
         width: 47%;
-        
         transition: background-color 1s ease;
         box-shadow: grey 0px 1px 3px;
         border-left:0px solid var(--bor);
