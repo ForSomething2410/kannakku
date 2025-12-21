@@ -67,14 +67,15 @@
          }
          .ass input,.ass select{
          width:40%;
+         background-color:var(--bh);
          box-shadow: grey 0px 1px 4px;
          }
          .ass i{
          color:var(--wh);
          font-size:2.8rem;
-         background-color:var(--bb);;
+         background-color:var(--bb);
          border-radius:50px;
-         border:1.5px solid grey;
+         
          }
          
          .recb,.child{
@@ -478,7 +479,7 @@
     </div>
     
     
-    <i style="display:none;" onclick="window.print()" class="bi bi-printer"></i>
+    <i style="" onclick="window.print()" class="bi bi-printer"></i>
     <i style="display:none;" onclick="location.href='finpulse.html'" class="bi bi-house"></i>
     <div class="c">
    
@@ -774,7 +775,7 @@
    
    
    get();
-//  setTimeout(()=>{document.getElementById("rebb").style.opacity="0"},1500);
+   setTimeout(()=>{document.getElementById("rebb").style.display="none"},1500);
    
    
    function add() {
