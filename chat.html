@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat</title>
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui, sans-serif;
+  background:#ece5dd;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+#topbar{
+  height:55px;
+  background:#075e54;
+  color:white;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+}
+
+#topbar img{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  margin-right:10px;
+}
+
+#title{
+  font-size:18px;
+  font-weight:500;
+}
+
+#chat{
+  flex:1;
+  padding:10px;
+  overflow-y:auto;
+  display:flex;
+  background-color:black;
+  flex-direction:column;
+}
+
+.msg{
+  max-width:75%;
+  padding:8px 12px;
+  margin:4px 0;
+  border-radius:8px;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.user{
+  align-self:flex-end;
+  background:#dcf8c6;
+  border-bottom-right-radius:0;
+}
+
+.bot{
+  align-self:flex-start;
+  background:white;
+  border-bottom-left-radius:0;
+}
+
+#inputBar{
+  height:55px;
+  display:flex;
+  align-items:center;
+  padding:6px;
+  background:#f0f0f0;
+  background:#075e54;
+  color:white
+}
+
+#cmd::placeholder{
+color:white;
+}
+
+#cmd{
+  flex:1;
+  padding:10px 14px;
+  border-radius:20px;
+  border:none;
+  outline:none;
+  font-size:14px;
+  color:white;
+  background-color:#f0f0f0;
+  background:#075e54;
+}
+</style>
+</head>
+
+<body>
+
+<div id="topbar">
+  <img id="im" src="https://avatar.iran.liara.run/username?username=Black+Road">
+  <div id="title">NKN</div>
+</div>
+
+<div id="chat"></div>
+
+<div id="inputBar">
+  <input id="cmd" placeholder="Type a message" autofocus>
+</div>
+
+<audio id="sendSound" src="https://actions.google.com/sounds/v1/cartoon/pop.ogg"></audio>
+<audio id="receiveSound" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+
+
+<script>
+let data;
+
+function get(){
+        
+        const r = indexedDB.open("black");
+        r.onsuccess = e => {
+        const d = e.target.result;
+        const t = d.transaction(["sst"], 'readwrite');
+        const st = t.objectStore("sst");
+        const nkn = st.get("blackroadINC");
+        nkn.onsuccess=function(){
+        
+        let hel= nkn.result;
+        data= ext(hel.data);
+        };
+        
+        
+        };
+        
+        }
+        
+function getName(){
+        
+        const r = indexedDB.open("black");
+        r.onsuccess = e => {
+        const d = e.target.result;
+        const t = d.transaction(["sst"], 'readwrite');
+        const st = t.objectStore("sst");
+        const nkn = st.get("user");
+        nkn.onsuccess=function(){
+        
+        let hel= nkn.result;
+        let x= hel["u"];
+        document.getElementById("im").src=`https://avatar.iran.liara.run/username?username=${x}`;
+        document.getElementById("title").innerText=`${x}`;
+        };
+        
+        
+        };
+        
+        }
+getName();
+
+get();
+
+function ext(htmlString) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, "text/html");
+
+    const allData = [];
+
+    doc.querySelectorAll(".child").forEach(child => {
+        const header = child.querySelector(".idfeb");
+
+        const income = header?.querySelector(".incomeColumn")?.innerText.trim();
+        const date = header?.querySelector(".dateColumn")?.innerText.trim();
+        const from = header?.querySelector(".fromm")?.innerText.trim();
+        const exp = header?.querySelector(".exep")?.innerText.trim();
+        const bal = header?.querySelector(".Abal")?.innerText.trim();
+
+        const transactions = [];
+
+        child.querySelectorAll(".trand .trans").forEach(tr => {
+            transactions.push({
+                amount: tr.querySelector(".mony")?.innerText.trim(),
+                date: tr.querySelector(".tdate")?.innerText.trim(),
+                description: tr.querySelector(".tdes")?.innerText.trim(),
+                type: tr.classList[1] || null
+            });
+        });
+
+        allData.push({
+            income,
+            date,
+            from,
+            expense: exp,
+            balance: bal,
+            transactions
+        });
+    });
+
+    return allData;
+}
+
+const chat = document.getElementById("chat");
+const cmd  = document.getElementById("cmd");
+const sendSound = document.getElementById("sendSound");
+const receiveSound = document.getElementById("receiveSound");
+
+function addMsg(text,type){
+  const d=document.createElement("div");
+  d.className="msg "+type;
+  d.innerText=text;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
+
+  /*if(type==="user") sendSound.play();
+  else receiveSound.play();*/
+}
+
+cmd.addEventListener("keydown",e=>{
+  if(e.key==="Enter"){
+    const q=cmd.value.trim();
+    if(!q) return;
+    cmd.value="";
+    addMsg(q,"user");
+    reply(q.toLowerCase());
+  }
+});
+
+const alias = { tin:"income", te:"expense", tb:"balance" };
+
+function reply(q){
+
+  Object.keys(alias).forEach(a=>{
+    if(q.startsWith(a)) q=q.replace(a,alias[a]);
+  });
+
+  const t = q.split(/\s+/);
+
+  if(t[0]==="ls" && t[1]==="cmd"){
+    addMsg(
+`Available commands:
+
+ls src
+ls cmd
+balance
+income
+expense
+
+Examples:
+income from src 2025-01-01 to 2025-01-30
+
+`,
+    "bot"
+    );
+    return;
+  }
+
+  if(t[0]==="ls" && t[1]==="src"){
+    const names = [...new Set(data.map(x => x.from).filter(Boolean))];
+    addMsg(names.length ? names.join("\n") : "No sources found","bot");
+    return;
+  }
+
+  if(t[0]==="balance") return balance();
+  if(t[0]==="income")  return income(t);
+  if(t[0]==="expense") return expense(t);
+
+  addMsg("Unknown command. Try `ls cmd`","bot");
+}
+
+
+
+function balance(){
+  let total=0;
+  data.forEach(x=>total+=Number(x.balance));
+  addMsg("Balance : "+total,"bot");
+}
+
+
+function income(t){
+  let from=null, fd=null, td=null, sum=0;
+
+  for(let i=0;i<t.length;i++){
+
+    if(t[i]==="from"){
+      let temp=[];
+      for(let j=i+1;j<t.length;j++){
+        if(t[j]==="to") break;
+
+        if(t[j].includes("-")){
+          fd = t[j];       // ✅ capture from-date
+          break;
+        }
+
+        temp.push(t[j]);
+      }
+      if(temp.length) from = temp.join(" ").toLowerCase();
+    }
+
+    if(t[i]==="to" && t[i+1]?.includes("-")){
+      td = t[i+1];        // ✅ capture to-date
+    }
+  }
+
+  data.forEach(x=>{
+    if(from && x.from.toLowerCase() !== from) return;
+    if(fd && x.date < fd) return;
+    if(td && x.date > td) return;
+    sum += Number(x.income);
+  });
+
+  addMsg("Income : " + sum, "bot");
+}
+
+function expense(t){
+  let fd=null,td=null,sum=0;
+
+  for(let i=0;i<t.length;i++){
+    if(t[i]==="from" && t[i+1]?.includes("-")) fd=t[i+1];
+    if(t[i]==="to") td=t[i+1];
+  }
+
+  data.forEach(x=>{
+    x.transactions.forEach(tr=>{
+      if(fd && tr.date<fd) return;
+      if(td && tr.date>td) return;
+      sum+=Number(tr.amount);
+    });
+  });
+
+  addMsg("Expense : "+sum,"bot");
+}
+
+addMsg("👋 Hi","bot");
+//addMsg("Try: balance | tin | income from dad | expense from 2025-05-01 to 2025-06-30","bot");
+</script>
+
+</body>
+</html>
