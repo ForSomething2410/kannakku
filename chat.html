@@ -274,22 +274,38 @@ function balance(){
 }
 
 function income(t){
-  let from=null,fd=null,td=null,sum=0;
+  let from=null, fd=null, td=null, sum=0;
 
   for(let i=0;i<t.length;i++){
-    if(t[i]==="from" && t[i+1]?.includes("-")) fd=t[i+1];
-    else if(t[i]==="to") td=t[i+1];
-    else if(t[i]==="from") from=t[i+1];
+
+    if(t[i]==="from"){
+      let temp=[];
+      for(let j=i+1;j<t.length;j++){
+        if(t[j]==="to") break;
+
+        if(t[j].includes("-")){
+          fd = t[j];       // ✅ capture from-date
+          break;
+        }
+
+        temp.push(t[j]);
+      }
+      if(temp.length) from = temp.join(" ").toLowerCase();
+    }
+
+    if(t[i]==="to" && t[i+1]?.includes("-")){
+      td = t[i+1];        // ✅ capture to-date
+    }
   }
 
   data.forEach(x=>{
-    if(from && x.from.toLowerCase()!==from) return;
-    if(fd && x.date<fd) return;
-    if(td && x.date>td) return;
-    sum+=x.income;
+    if(from && x.from.toLowerCase() !== from) return;
+    if(fd && x.date < fd) return;
+    if(td && x.date > td) return;
+    sum += Number(x.income);
   });
 
-  sendB("Income : "+sum);
+  sendB("Income : " + sum);
 }
 
 function expense(t){
