@@ -5,18 +5,30 @@
 <title>Chat</title>
 
 <style>
-body{
-  margin:0;
-  font-family:system-ui, sans-serif;
-  background:#ece5dd;
-  height:100dvh;   
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
+*{
+  box-sizing:border-box;
 }
 
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont;
+}
+
+
+body{
+  display:flex;
+  flex-direction:column;
+  height:100dvh;
+  background:#efeae2;
+}
+
+
 #topbar{
-  height:55px;
+  height:56px;
+  flex-shrink:0;
   background:#075e54;
   color:white;
   display:flex;
@@ -32,64 +44,69 @@ body{
 }
 
 #title{
-  font-size:18px;
+  font-size:17px;
   font-weight:500;
 }
 
 #chat{
   flex:1;
-  padding:10px;
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:12px;
   display:flex;
-  background-color:black;
   flex-direction:column;
+  background:#efeae2;
 }
 
 .msg{
-  max-width:75%;
-  padding:8px 12px;
-  margin:4px 0;
-  border-radius:8px;
+  max-width:78%;
+  padding:8px 10px;
+  margin:3px 0;
   font-size:14px;
   line-height:1.4;
+  position:relative;
+  word-wrap:break-word;
+  box-shadow:0 1px 1px rgba(0,0,0,.12);
 }
 
 .user{
   align-self:flex-end;
   background:#dcf8c6;
-  border-bottom-right-radius:0;
+  border-radius:8px 0 8px 8px;
 }
 
 .bot{
   align-self:flex-start;
   background:white;
-  border-bottom-left-radius:0;
+  border-radius:0 8px 8px 8px;
 }
+
 
 #inputBar{
-  height:55px;
+  height:56px;
+  flex-shrink:0;
   display:flex;
   align-items:center;
-  padding:6px;
-  background:#f0f0f0;
-  background:#075e54;
-  color:white
+  padding:6px 8px;
+  background:#f0f2f5;
+  border-top:1px solid #ddd;
+  padding-bottom:env(safe-area-inset-bottom);
 }
 
-#cmd::placeholder{
-color:white;
-}
 
 #cmd{
   flex:1;
   padding:10px 14px;
-  border-radius:20px;
+  border-radius:22px;
   border:none;
   outline:none;
-  font-size:14px;
-  color:white;
-  background-color:#f0f0f0;
-  background:#075e54;
+  font-size:15px;
+  background:white;
+  color:#333;
+}
+
+#cmd::placeholder{
+  color:#888;
 }
 </style>
 </head>
