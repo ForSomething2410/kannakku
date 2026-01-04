@@ -1740,28 +1740,46 @@ function grpse(x){
           
           function extractJSON() {
           const allData = [];
+          
           document.querySelectorAll(".child").forEach(child => {
           const header = child.querySelector(".idfeb");
+          
           const income = header.querySelector(".incomeColumn")?.innerText.trim();
           const date = header.querySelector(".dateColumn")?.innerText.trim();
           const from = header.querySelector(".fromm")?.innerText.trim();
           const exp = header.querySelector(".exep")?.innerText.trim();
           const bal = header.querySelector(".Abal")?.innerText.trim();
+          
           let transactions = [];
+          
           child.querySelectorAll(".trand .trans").forEach(tr => {
           transactions.push({
           amount: tr.querySelector(".mony")?.innerText.trim(),
           date: tr.querySelector(".tdate")?.innerText.trim(),
           description: tr.querySelector(".tdes")?.innerText.trim(),
-          type: tr.classList[1]
+          category: tr.dataset.category || "",   // ✅ added
+          type: tr.classList[1] || ""
           });
           });
-          allData.push({ income, date, from, expense: exp, balance: bal, transactions });
+          
+          allData.push({
+          income,
+          date,
+          from,
+          expense: exp,
+          balance: bal,
+          transactions
           });
-          const blob = new Blob([JSON.stringify(allData, null, 4)], { type: "application/json" });
+          });
+          
+          const blob = new Blob(
+          [JSON.stringify(allData, null, 4)],
+          { type: "application/json" }
+          );
+          
           const a = document.createElement("a");
           a.href = URL.createObjectURL(blob);
-          a.download = "transactions.json";
+          a.download = "BlackData.json";
           a.click();
           }
           
