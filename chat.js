@@ -38,9 +38,9 @@ function reply(q) {
   `Income : ${inc}\nExpense : ${exp}\nBalance : ${bal}`
   );
   
-  } else if (t[1] === "chart" && (t[2] === "pie" || t[2] === "bar" || t[2] === "line")) {
+  } else if (t[1] === "chart" && (t[2] === "pie")) {
   
-  return showPieChart(inc, exp, bal, t[2]);
+  return showPieChart(inc, exp, bal);
   }
   }
 
@@ -209,23 +209,33 @@ function showBarChart(labels, income, expense) {
   });
 }
 
-function showPieChart(income, expense, balance, type) {
-  const cid = "chart_" + Date.now();
+function showPieChart(income, expense, balance) {
+  // alert(income); <-- Remove this line
 
+  const cid = "chart_" + Date.now();
+/*
   sendB(`
     <div style="width:100%;max-width:420px;height:320px;margin:auto;">
       <canvas id="${cid}"></canvas>
     </div>
   `);
-
-  requestAnimationFrame(() => {
+  */
+  const d=document.createElement("div");
+  d.className="msg bot";
+  d.innerHTML=`<div class="bbl"><div style="width:100%;max-width:420px;height:420px;margin:auto;">
+  <canvas id="${cid}"></canvas>
+  </div></div>`;
+  log.appendChild(d);
+  log.scrollTop=log.scrollHeight;
+  
+ requestAnimationFrame(() => {
     const canvas = document.getElementById(cid);
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
 
     new Chart(ctx, {
-      type: type || "pie",
+      type: "pie",
       data: {
         labels: ["Invome", "Expense", "Balance"],
         datasets: [{
