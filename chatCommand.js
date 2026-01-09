@@ -25,11 +25,96 @@ sendB(
 11. <a href="#" onclick="cmdinputadd('ieb')" > ieb </a>
 
 12. <a href="#" onclick="cmdinputadd('ieb chart pie')" > ieb chart pie/bar/line </a>
+
+13. <a href="#" onclick="cmdinputadd('lend tot')" > lend tot </a>
+
+14. <a href="#" onclick="cmdinputadd('lend sum')" > lend sum </a>
+
+15. <a href="#" onclick="cmdinputadd('ls lend')" > ls lend </a>
+
+
 `
     );
 }
 
 
+
+function totalLendByType() {
+  let borrowTotal = 0;
+  let receivableTotal = 0;
+
+  lenddata.forEach(item => {
+    if (item.type === "B") {
+      borrowTotal += item.amount;
+    } else if (item.type === "R") {
+      receivableTotal += item.amount;
+    }
+  });
+
+  sendB(` Lend \n borrow : ${borrowTotal} \n recivable : ${receivableTotal} \n\n Total : ${borrowTotal+receivableTotal}`);
+}
+
+function listLend(){
+
+
+Object.values(lenddata).forEach((v, i) => {
+  sendB(`${i}.
+<span style="color:red;font-weight:bold">name :</span> ${v.name}
+<span style="color:lightgreen;font-weight:bold">${v.type === "R" ? "Recivable" : "Borrow"} :</span> ${v.amount}
+<span style="color:skyblue;font-weight:bold">date :</span> ${v.date}
+<span style="color:brown;font-weight:bold">details :</span> ${v.description}
+`);
+});
+
+}
+
+
+function lendsummary() {
+  const map = {};
+
+  lenddata.forEach(item => {
+    const name = item.name.trim();
+
+    if (!map[name]) {
+      map[name] = { borrow: 0, receivable: 0 };
+    }
+
+    if (item.type === "B") {
+      map[name].borrow += Number(item.amount);
+    } else if (item.type === "R") {
+      map[name].receivable += Number(item.amount);
+    }
+  });
+
+  let html = `
+  <table style="width:100%;border-collapse:collapse;font-family:monospace">
+    <thead>
+      <tr style="background:#222;color:#fff">
+        <th style="border:1px solid #555;padding:6px">Name</th>
+        <th style="border:1px solid #555;padding:6px;color:#ff6b6b">Borrow</th>
+        <th style="border:1px solid #555;padding:6px;color:#6bff95">Receivable</th>
+      </tr>
+    </thead>
+    <tbody>
+  `;
+
+  Object.keys(map).forEach(name => {
+    html += `
+      <tr>
+        <td style="border:1px solid #555;padding:2px">${name}</td>
+        <td style="border:1px solid #555;padding:2px;">${map[name].borrow}</td>
+        <td style="border:1px solid #555;padding:2px;">${map[name].receivable}</td>
+      </tr>
+    `;
+  });
+
+  html += `
+    </tbody>
+  </table>
+  `;
+
+  sendB(html);
+}
 
 
 function listSource(){

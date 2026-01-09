@@ -20,6 +20,19 @@ function reply(q) {
     return sendB("notification turend off succefully");
   }
   
+  if(t[0] === "lend" && t[1] === "tot"){
+  return totalLendByType();
+  
+  }
+  
+  if(t[0] === "ls" && t[1] === "lend"){
+  return listLend();
+  }
+  
+  if(t[0] === "lend" && t[1]==="sum"){
+  return lendsummary();
+  }
+  
   if (t[0] === "ieb") {
   
   let inc = 0;
