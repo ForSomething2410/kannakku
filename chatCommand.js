@@ -32,6 +32,9 @@ sendB(
 
 15. <a href="#" onclick="cmdinputadd('ls lend')" > ls lend </a>
 
+15. <a href="#" onclick="cmdinputadd('lend name person_name')" >lend name person_name</a>
+
+15. <a href="#" onclick="cmdinputadd('ls lend name')" > ls lend name</a>
 
 `
     );
@@ -39,7 +42,7 @@ sendB(
 
 
 
-function totalLendByType() {
+function totalLendByType(x) {
   let borrowTotal = 0;
   let receivableTotal = 0;
 
@@ -50,8 +53,31 @@ function totalLendByType() {
       receivableTotal += item.amount;
     }
   });
-
+  if(x === "bar" || x=== "pie"){
+  showLendChart(["Total","Recivable","Borrow"],borrowTotal+receivableTotal,receivableTotal,borrowTotal,x);
+  }else{
   sendB(` Lend \n borrow : ${borrowTotal} \n recivable : ${receivableTotal} \n\n Total : ${borrowTotal+receivableTotal}`);
+}
+}
+
+
+function lendByName(targetName) {
+  let borrow = 0;
+  let receivable = 0;
+
+  const nameKey = targetName.trim().toLowerCase();
+
+  lenddata.forEach(item => {
+    if (item.name.trim().toLowerCase() === nameKey) {
+      if (item.type === "B") {
+        borrow += Number(item.amount);
+      } else if (item.type === "R") {
+        receivable += Number(item.amount);
+      }
+    }
+  });
+
+  sendB(` name : ${targetName} \n Borrow : ${borrow} \n Recivable : ${receivable}`);
 }
 
 function listLend(){
@@ -68,6 +94,16 @@ Object.values(lenddata).forEach((v, i) => {
 
 }
 
+function lendNames() {
+  const names = [...new Set(lenddata.map(x => x.name.trim()))];
+
+  let out = "Lend \n\n";
+  names.forEach((name, i) => {
+    out += `${i + 1}. ${name}<br>`;
+  });
+
+  sendB(out);
+}
 
 function lendsummary() {
   const map = {};
