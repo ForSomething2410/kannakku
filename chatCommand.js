@@ -36,6 +36,8 @@ sendB(
 
 15. <a href="#" onclick="cmdinputadd('ls lend name')" > ls lend name</a>
 
+15. <a href="#" onclick="cmdinputadd('lend sum chart pie')" > lend chart bar/pie</a>
+
 `
     );
 }
