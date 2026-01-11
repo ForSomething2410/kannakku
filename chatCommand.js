@@ -101,7 +101,7 @@ function lendNames() {
 
   let out = "Lend \n\n";
   names.forEach((name, i) => {
-    out += `${i + 1}. ${name}<br>`;
+    out += `<a href="#" onclick="cmdinputadd('lend name ${name}')">${i + 1}. ${name}</a><br>`;
   });
 
   sendB(out);
