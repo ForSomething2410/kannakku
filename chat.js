@@ -9,6 +9,10 @@ function reply(q) {
     return listCommand();
   }
   
+  if(t[0] ==="backup" && t[1]=== "date"){
+  
+  return backupDate("https://forsomething2410.github.io/kannakku/blackdata/lastseen.txt");
+  }
   if(t[0] === "not" && t[1] === "chng"){
     userNot.src="yamete.mp3";
     botNot.src="duck.mp3";

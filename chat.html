@@ -279,17 +279,65 @@ botNot?.play();
   
 }
 
+function extRead(el){
+  const table = el.querySelector("table");
+  if (!table) return el.innerText;
+
+  let output = "";
+  const rows = table.querySelectorAll("tr");
+
+  rows.forEach((row, i) => {
+    const cells = row.querySelectorAll("th, td");
+    let line = [];
+    cells.forEach(c => {
+      line.push(c.innerText.trim());
+    });
+    output += line.join(" | ") + "\n";
+  });
+
+  return output.trim();
+}
+
 function sendB(t){
 
-setTimeout(()=>{
-userNot?.play();
-  
-  const d=document.createElement("div");
-  d.className="msg bot";
-  d.innerHTML=`<div class="bbl">${t}</div>`;
-  log.appendChild(d);
-  log.scrollTop=log.scrollHeight;
+  setTimeout(()=>{
+    userNot?.play();
+
+    const d = document.createElement("div");
+    d.className = "msg bot";
+    d.innerHTML = `<div class="bbl">${t}</div>`;
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+
+    const bubble = d.querySelector(".bbl");
+
+    let timer;
+
+    bubble.addEventListener("touchstart", () => {
+      timer = setTimeout(() => {
+        
+        shareText(extRead(bubble));
+      }, 600);
+    });
+
+    bubble.addEventListener("touchend", () => clearTimeout(timer));
+    bubble.addEventListener("touchmove", () => clearTimeout(timer));
+
+    bubble.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      shareText(extRead(bubble));
+    });
+
   },1500);
+}
+
+
+function shareText(text){
+  if (navigator.share) {
+    navigator.share({
+      text: text
+    }).catch(()=>{});
+  }
 }
 
 ta.addEventListener("input",()=>{

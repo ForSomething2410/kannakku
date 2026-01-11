@@ -32,17 +32,30 @@ sendB(
 
 15. <a href="#" onclick="cmdinputadd('ls lend')" > ls lend </a>
 
-15. <a href="#" onclick="cmdinputadd('lend name person_name')" >lend name person_name</a>
+16. <a href="#" onclick="cmdinputadd('lend name person_name')" >lend name person_name</a>
 
-15. <a href="#" onclick="cmdinputadd('ls lend name')" > ls lend name</a>
+17. <a href="#" onclick="cmdinputadd('ls lend name')" > ls lend name</a>
 
-15. <a href="#" onclick="cmdinputadd('lend sum chart pie')" > lend chart bar/pie</a>
+18. <a href="#" onclick="cmdinputadd('lend sum chart pie')" > lend chart bar/pie</a>
+
+19. <a href="#" onclick="cmdinputadd('backup date')" > backup date</a>
 
 `
     );
 }
 
+async function backupDate(url) {
 
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    sendB("Failed to fetch text");
+    return;
+  }
+
+  const text = await response.text();
+  sendB("last BackUP  \n\n"+text);
+}
 
 function totalLendByType(x) {
   let borrowTotal = 0;
