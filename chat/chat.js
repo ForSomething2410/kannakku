@@ -9,6 +9,19 @@ function reply(q) {
     return listCommand();
   }
   
+  if(t[0] === "factory" && t[1] ==="reset"){
+  return deleteDB();
+  }
+  
+  if(t[0]=== "storage"){
+  chkSize().then(text => {
+  
+   sendB(text)
+  });
+  
+  return;
+  }
+  
   if(t[0] ==="backup" && t[1]=== "date"){
   
   return backupDate("https://forsomething2410.github.io/kannakku/blackdata/lastseen.txt");
@@ -19,6 +32,12 @@ function reply(q) {
     return sendB("notification mode changed");
   }
   
+  if(t[0] === "account"){
+   if(accNAME){
+     sendB(` User Name : ${accNAME}<br> Password : ${accPASS}`);
+   }
+  return;
+  }
   if(t[0] === "not" && t[1] === "off"){
     userNot=botNot=null;
     return sendB("notification turend off succefully");

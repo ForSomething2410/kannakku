@@ -40,6 +40,14 @@ sendB(
 
 19. <a href="#" onclick="cmdinputadd('backup date')" > backup date</a>
 
+20. <a href="#" onclick="cmdinputadd('factory reset')" > factory reset</a>
+
+21. <a href="#" onclick="cmdinputadd('storage')" > storage</a>
+
+22. <a href="#" onclick="cmdinputadd('Account')" > Account</a>
+
+
+
 `
     );
 }
@@ -211,4 +219,92 @@ function expenseFrom(cat){
         : `No expenses found for "${cat}"`
     );
 
+}
+
+
+
+function deleteDB() {
+    const password = prompt("Enter Password to delete everything:");
+    if (!password) {
+    sendB("Password is required.");
+     return;
+    }
+ 
+    const request = indexedDB.open("black",2);
+ 
+    request.onerror = function (event) {
+     console.error("Database error:", event.target.error);
+     sendB("Failed to open the database.");
+    };
+ 
+        request.onsuccess = function () {
+        const db = request.result;
+        const transaction = db.transaction("sst", "readonly");
+        const store = transaction.objectStore("sst");
+        const getRequest = store.get("user");
+ 
+        getRequest.onerror = function (event) {
+      console.error("Error retrieving data:", event.target.error);
+     sendB("Error retrieving user data.");
+        };
+ 
+        getRequest.onsuccess = function () {
+   const userData = getRequest.result;
+     if (userData && userData["p"] === password) {
+     const deleteRequest = indexedDB.deleteDatabase("black");
+     alert("Factory Reset Successful!");
+      localStorage.removeItem("blackuser");
+      localStorage.removeItem("blogpin");
+   //location.href = "../login.html";
+   location.reload();
+    deleteRequest.onsuccess = function () {
+     
+             };
+ 
+     deleteRequest.onerror = function () {
+   sendB("Failed to delete the database.");
+                };
+            } else {
+                sendB("Incorrect password or user not found.");
+            }
+        };
+    };
+}
+
+
+function chkSize() {
+  return new Promise((resolve, reject) => {
+    const dbN = "black";
+    const stN = "sst";
+
+    const req = indexedDB.open(dbN);
+
+    req.onerror = () => reject("Failed to open DB");
+
+    req.onsuccess = e => {
+      const db = e.target.result;
+
+      if (!db.objectStoreNames.contains(stN)) {
+        db.close();
+        resolve("Store not found");
+        return;
+      }
+
+      const tx = db.transaction(stN, "readonly");
+      const store = tx.objectStore(stN);
+      const getAll = store.getAll();
+
+      getAll.onerror = () => {
+        db.close();
+        reject("Failed to read data");
+      };
+
+      getAll.onsuccess = () => {
+        const size = new Blob([JSON.stringify(getAll.result)]).size;
+        const usedMB = (size / (1024 * 1024)).toFixed(5);
+        db.close();
+        resolve(`BlackRoad Used : <b>${usedMB} </b>MB in Your Device Storage`);
+      };
+    };
+  });
 }

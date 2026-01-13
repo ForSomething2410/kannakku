@@ -387,7 +387,7 @@ function get() {
         data = ext(req.result.data);
         sendB("BlackRoad Data loaded");
       } else {
-        sendB("No data found..\n Please Login to BlackRoad by u r Credential.");
+        sendB(`No data found..\n Please Login to BlackRoad <br> <a href="../login.html" > <b>Click here to Login </b></a>.`);
       }
     };
 
@@ -407,7 +407,8 @@ function get() {
 }
 
 get();
-
+let accNAME;
+let accPASS;
 function getName(){
         
         const r = indexedDB.open("black");
@@ -420,6 +421,8 @@ function getName(){
         
         let hel= nkn.result;
         let x= hel["u"];
+        accNAME=hel["u"];
+        accPASS= hel["p"];
      //  document.getElementById("im").src=`https://avatar.iran.liara.run/username?username=${x}`;
         document.getElementById("usn").innerText=`${x}`;
         };
