@@ -359,35 +359,53 @@ document.getElementById("i-f").onsubmit=e=>{
 
 /* ---------------- DATA LOAD ---------------- */
 
-function get(){
-  const r=indexedDB.open("black");
-  r.onsuccess=e=>{
-    const db=e.target.result;
-    const tx=db.transaction("sst","readonly");
-    const st=tx.objectStore("sst");
-    const req=st.get("blackroadINC");
-    const lendreq= st.get("nkncc");
-    req.onsuccess=()=>{
-      if(req.result?.data){
-        data=ext(req.result.data);
+function get() {
+  const r = indexedDB.open("black");
+
+  r.onsuccess = e => {
+    const db = e.target.result;
+    let st;
+
+    try {
+      const tx = db.transaction("sst", "readonly");
+      st = tx.objectStore("sst");
+    } catch (err) {
+      if (err.name === "NotFoundError") {
+        sendB(`Please Login to BlackRoad Account to access the data <br> <a href="../login.html" > <b>Click here to Login </b></a>`);
+        return;
+      } else {
+        console.error(err);
+        return;
+      }
+    }
+
+    const req = st.get("blackroadINC");
+    const lendreq = st.get("nkncc");
+
+    req.onsuccess = () => {
+      if (req.result?.data) {
+        data = ext(req.result.data);
         sendB("BlackRoad Data loaded");
-      }else{
+      } else {
         sendB("No data found..\n Please Login to BlackRoad by u r Credential.");
       }
     };
-    
-    lendreq.onsuccess=()=>{
-   // alert(JSON.stringify(lendreq.result.rbcon));
-    if(lendreq.result?.rbcon){
-    lenddata=extlend(lendreq.result.rbcon);
-    sendB("Lend Data loaded");
-    }else{
-    sendB("No data found..");
-    }
+
+    lendreq.onsuccess = () => {
+      if (lendreq.result?.rbcon) {
+        lenddata = extlend(lendreq.result.rbcon);
+        sendB("Lend Data loaded");
+      } else {
+        sendB("No data found..");
+      }
     };
-    
+  };
+
+  r.onerror = e => {
+    sendB("Failed to open database 'black'.");
   };
 }
+
 get();
 
 function getName(){
