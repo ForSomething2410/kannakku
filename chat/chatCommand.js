@@ -44,7 +44,9 @@ sendB(
 
 21. <a href="#" onclick="cmdinputadd('storage')" > storage</a>
 
-22. <a href="#" onclick="cmdinputadd('Account')" > Account</a>
+22. <a href="#" onclick="cmdinputadd('storage chart')" > storage chart</a>
+
+23. <a href="#" onclick="cmdinputadd('Account')" > Account</a>
 
 
 

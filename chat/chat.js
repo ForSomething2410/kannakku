@@ -14,13 +14,17 @@ function reply(q) {
   }
   
   if(t[0]=== "storage"){
+   if(t[1] ==="chart"){
+   showBlackRoadStorage();
+   }else{
   chkSize().then(text => {
   
    sendB(text)
-  });
-  
+  })
+  }
   return;
   }
+  
   
   if(t[0] ==="backup" && t[1]=== "date"){
   
@@ -395,4 +399,120 @@ function showLendChart(lable,income, expense, balance,type) {
       }
     });
   });
+}
+
+
+function calchkSize() {
+  return new Promise((resolve, reject) => {
+    const dbN = "black";
+    const stN = "sst";
+
+    const req = indexedDB.open(dbN);
+
+    req.onerror = () => reject("Failed to open DB");
+
+    req.onsuccess = e => {
+      const db = e.target.result;
+
+      if (!db.objectStoreNames.contains(stN)) {
+        db.close();
+        resolve("Store not found");
+        return;
+      }
+
+      const tx = db.transaction(stN, "readonly");
+      const store = tx.objectStore(stN);
+      const getAll = store.getAll();
+
+      getAll.onerror = () => {
+        db.close();
+        reject("Failed to read data");
+      };
+
+      getAll.onsuccess = () => {
+        const size = new Blob([JSON.stringify(getAll.result)]).size;
+        const usedMB = (size / (1024 * 1024)).toFixed(5);
+        db.close();
+        resolve(usedMB);
+      };
+    };
+  });
+}
+
+
+async function showStoragePieChart(usedMB, totalMB) {
+  const freeMB = totalMB - usedMB;
+  const cid = "chart_" + Date.now();
+
+  const d = document.createElement("div");
+  d.className = "msg bot";
+  d.innerHTML = `
+    <div class="bbl">
+      <div style="width:100%;max-width:420px;height:420px;margin:auto;">
+        <canvas id="${cid}"></canvas>
+      </div>
+    </div>
+  `;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+
+  requestAnimationFrame(() => {
+    const canvas = document.getElementById(cid);
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+
+    new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["BlackRoad Used", "Free Storage"],
+        datasets: [{
+          data: [usedMB, freeMB],
+          backgroundColor: [
+            "#e53935", // Used
+            "#43a047"  // Free
+          ],
+          borderColor: "#ffffff",
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: "BlackRoad Storage Usage",
+            font: {
+              size: 16,
+              weight: "bold"
+            }
+          },
+          legend: {
+            position: "top",
+            labels: {
+              boxWidth: 14,
+              padding: 12
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx =>
+                `${ctx.label} : ${ctx.parsed.toFixed(5)} MB`
+            }
+          }
+        }
+      }
+    });
+  });
+}
+
+
+async function showBlackRoadStorage() {
+  const estimate = await navigator.storage.estimate();
+  const totalMB = estimate.quota / (1024 * 1024);
+
+  const usedMB = parseFloat(await calchkSize());
+
+  showStoragePieChart(usedMB, totalMB);
 }
