@@ -134,8 +134,10 @@ function lendsummary() {
 
 function listSource(){
 const s = [...new Set(data.map(x => x.from).filter(Boolean))];
- sendB(s.join("\n") || "No sources");
-    
+ //sendB(s.join("\n") || "No sources");
+let out=``;
+s.forEach(el=>out+=`<a href="#" onclick="cmdinputadd('income from ${el}')">${el}</a><br>`);
+sendB(out);
 }
 
 function cmdinputadd(x){

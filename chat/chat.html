@@ -357,7 +357,7 @@ function sendU(t){
 botNot?.play();
   const d=document.createElement("div");
   d.className="msg usr";
-  d.innerHTML=`<div class="bbl">${t}</div>`;
+  d.innerHTML=`<div class="bbl" onclick="cmdinputadd(this.innerText)">${t}</div>`;
   log.appendChild(d);
   log.scrollTop=log.scrollHeight;
   
@@ -616,7 +616,7 @@ function income(t){
     sum += Number(x.income);
   });
 
-  sendB("Income : " + sum);
+  sendB(`Income from ${t.slice(2).join(" ")} is : ` + sum);
 }
 
 function expense(t){
