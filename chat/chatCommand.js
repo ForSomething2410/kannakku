@@ -335,18 +335,23 @@ function generateBlackRoadPDF(filters) {
   const pdf = new jsPDF("p", "mm", "a4");
   let y = 20;
 
-  pdf.setFontSize(18);
-  pdf.text("BlackRoad – Expense Report", 20, y);
+  pdf.setFontSize(24);
+  pdf.text("BlackRoad Report", 20, y);
   y += 8;
+  
+  pdf.setFontSize(16);
+  pdf.text(`Report for : ${nameKeys}`, 20, y);
+  y += 8;
+
 
   pdf.setFontSize(11);
-  pdf.text(`Total Income : ₹${summaryIncome}`, 20, y);
-  pdf.text(`Total Expense : ₹${summaryExpense}`, 80, y);
-  pdf.text(`Balance : ₹${summaryBalance}`, 150, y);
+  pdf.text(`Income : ${summaryIncome}`, 20, y);
+  pdf.text(`Expense : ${summaryExpense}`, 80, y);
+  pdf.text(`Balance : ${summaryBalance}`, 150, y);
   y += 8;
 
-  pdf.setFontSize(12);
-  pdf.text("Category Summary:", 20, y);
+  pdf.setFontSize(16);
+  pdf.text("Category Summary", 20, y);
   y += 6;
 
   pdf.setFontSize(10);
@@ -355,7 +360,7 @@ function generateBlackRoadPDF(filters) {
       pdf.addPage();
       y = 20;
     }
-    pdf.text(`${cat} : ₹${amt}`, 25, y);
+    pdf.text(`${cat} : ${amt}`, 25, y);
     y += 5;
   });
 
@@ -388,23 +393,23 @@ function generateBlackRoadPDF(filters) {
     }
 
     pdf.setFontSize(13);
-    pdf.text(`Income Date: ${record.date}`, 20, y);
+    pdf.text(`Income Date : ${record.date}`, 20, y);
     y += 6;
 
     pdf.setFontSize(11);
-    pdf.text(`From: ${record.from}`, 20, y);
+    pdf.text(`From : ${record.from}`, 20, y);
     y += 6;
 
-    pdf.text(`Income: ₹${record.income}`, 20, y);
-    pdf.text(`Expense: ₹${record.expense}`, 80, y);
-    pdf.text(`Balance: ₹${record.balance}`, 150, y);
+    pdf.text(`Income : ${record.income}`, 20, y);
+    pdf.text(`Expense : ${record.expense}`, 80, y);
+    pdf.text(`Balance : ${record.balance}`, 150, y);
     y += 6;
 
     const tableBody = transactions.map(t => [
       t.date,
       t.category,
       t.description,
-      `₹${t.amount}`
+      `${t.amount}`
     ]);
 
     pdf.autoTable({
@@ -423,7 +428,7 @@ function generateBlackRoadPDF(filters) {
 
   pdf.setFontSize(9);
   pdf.text(
-    `Downloaded on: ${new Date().toLocaleString()}`,
+    `${new Date().toLocaleString()} MicroIntel`,
     105,
     290,
     { align: "center" }
