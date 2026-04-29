@@ -548,10 +548,12 @@ async function showAccountingCharts(){
           <div style="font-size:14px;line-height:0.6">
             <h4 style="margin:4px 0;text-align:center">Balance Sheet</h4>
 
-            <div><b>Total Assets:</b> ${d.assets}</div>
-            <div><b>Net Worth:</b> ${d.net}</div>
+            <div><b>Total Assets :</b> ${d.assets}  = <br><br> Banks+Cash+MF+FD+Stocks+Reci+Other</div>
+            <div><b>Net Worth :</b> ${d.net} = <br><br> Total Asset - Liabilities</div>
             <hr>
-
+            <br>
+              <h6> Please Kindly Match this Net Worth With BlackRoad Balanc</h6>
+            <br><hr>
             <div><b>Banks :</b> ${bankTotal}</div>
             <div><b>Cash :</b> ${d.cash}</div>
             <div><b>Mutual Fund :</b> ${d.mf}</div>
