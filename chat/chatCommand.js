@@ -278,221 +278,305 @@ function chkSize() {
 }
 
 
-function generateBlackRoadPDF(filters) {
-  const normalize = v => (v || "").toLowerCase().trim();
+function generateBlackRoadPDF(filters){
 
-  const nameKeys = Array.isArray(filters.from) ? filters.from : [];
-  const categoryKeys = filters.categories || [];
-  const fromDate = filters.fromDate;
-  const toDate = filters.toDate;
+const normalize=v=>(v||"").toLowerCase().trim()
 
-  let records = data;
+const nameKeys=Array.isArray(filters.from)?filters.from:[]
+const categoryKeys=filters.categories||[]
+const fromDate=filters.fromDate
+const toDate=filters.toDate
 
-  /* ---------- SOURCE FILTER ---------- */
-  if (nameKeys.length) {
-    records = records.filter(r =>
-      nameKeys.some(k => normalize(r.from).includes(normalize(k)))
-    );
+let records=data
+
+if(nameKeys.length){
+records=records.filter(r=>
+nameKeys.some(k=>normalize(r.from).includes(normalize(k)))
+)
+}
+
+let summaryIncome=0
+let summaryExpense=0
+let categorySummary={}
+
+const f=fromDate?new Date(fromDate).getTime():null
+const t=toDate?new Date(toDate).getTime():null
+
+
+/* ---------- SUMMARY CALCULATION ---------- */
+
+records.forEach(record=>{
+
+const recordDate=new Date(record.date).getTime()
+
+if(!f||!t||(recordDate>=f&&recordDate<=t)){
+summaryIncome+=Number(record.income)||0
+}
+
+let txs=[...(record.transactions||[])]
+
+/* category filter */
+
+if(categoryKeys.length){
+txs=txs.filter(tr=>
+categoryKeys.some(k=>
+normalize(tr.category).includes(normalize(k))
+)
+)
+}
+
+/* date filter */
+
+if(f&&t){
+txs=txs.filter(tr=>{
+const d=new Date(tr.date).getTime()
+return d>=f&&d<=t
+})
+}
+
+/* expense calculation */
+
+txs.forEach(tr=>{
+
+const amt=parseFloat(tr.amount)
+
+if(!isNaN(amt)){
+summaryExpense+=amt
+
+const cat=tr.category||"Other"
+
+categorySummary[cat]=(categorySummary[cat]||0)+amt
+}
+
+})
+
+})
+
+const balance=summaryIncome-summaryExpense
+
+
+/* ---------- PDF ---------- */
+
+const{jsPDF}=window.jspdf
+const pdf=new jsPDF("p","mm","a4")
+
+const drawHeader=()=>{
+
+pdf.setFillColor(31,42,68)
+pdf.rect(0,0,210,18,"F")
+
+pdf.setTextColor(255)
+pdf.setFontSize(12)
+
+pdf.text("MICROINTEL",15,12)
+pdf.text("BLACKROAD",195,12,{align:"right"})
+
+pdf.setTextColor(0)
+
+}
+
+const drawFooter=()=>{
+
+pdf.setFontSize(8)
+pdf.setTextColor(120)
+
+pdf.text(
+`Generated on ${new Date().toLocaleString()}`,
+105,
+290,
+{align:"center"}
+)
+
+pdf.setTextColor(0)
+
+}
+
+drawHeader()
+
+let y=28
+
+
+/* ---------- TITLE ---------- */
+
+pdf.setFontSize(22)
+pdf.setTextColor(31,42,68)
+
+pdf.text("BlackRoad Summary Report",105,y,{align:"center"})
+
+y+=10
+
+pdf.setFontSize(11)
+pdf.setTextColor(60)
+
+pdf.text(
+`Report For : ${nameKeys.length?nameKeys.join(", "):"All Sources"}`,
+20,
+y
+)
+
+y+=6
+
+if(fromDate&&toDate){
+
+pdf.text(`Period : ${fromDate} to ${toDate}`,20,y)
+
+y+=8
+
+}
+
+
+/* ---------- SUMMARY CARDS ---------- */
+
+const cardY=y
+
+const drawCard=(x,title,value)=>{
+
+pdf.setFillColor(245)
+pdf.rect(x,cardY,55,18,"F")
+
+pdf.setFontSize(10)
+pdf.setTextColor(80)
+pdf.text(title,x+4,cardY+7)
+
+pdf.setFontSize(14)
+pdf.setTextColor(0)
+pdf.text(String(value),x+4,cardY+14)
+
+}
+
+drawCard(20,"Total Income",summaryIncome)
+drawCard(78,"Total Expense",summaryExpense)
+drawCard(136,"Net Balance",balance)
+
+y+=28
+
+
+/* ---------- CATEGORY TABLE ---------- */
+
+pdf.setFontSize(15)
+pdf.setTextColor(31,42,68)
+
+pdf.text("Category Breakdown",20,y)
+
+y+=5
+
+pdf.autoTable({
+startY:y,
+head:[["Category","Amount"]],
+body:Object.entries(categorySummary),
+theme:"grid",
+styles:{fontSize:10},
+headStyles:{fillColor:[31,42,68],textColor:255}
+})
+
+y=pdf.lastAutoTable.finalY+10
+
+
+/* ---------- RECORD DETAILS ---------- */
+
+records.forEach(record=>{
+
+let txs=[...(record.transactions||[])]
+
+if(categoryKeys.length){
+txs=txs.filter(tr=>
+categoryKeys.some(k=>
+normalize(tr.category).includes(normalize(k))
+)
+)
+}
+
+if(f&&t){
+txs=txs.filter(tr=>{
+const d=new Date(tr.date).getTime()
+return d>=f&&d<=t
+})
+}
+
+if(!txs.length && (!record.income || (f && t && (new Date(record.date).getTime() < f || new Date(record.date).getTime() > t)))) {
+  return
+}
+
+if(y>250){
+pdf.addPage()
+drawHeader()
+y=28
+}
+
+pdf.setFontSize(12)
+pdf.setTextColor(31,42,68)
+
+pdf.text(`Income Date : ${record.date}`,20,y)
+
+y+=5
+
+pdf.setFontSize(10)
+pdf.setTextColor(0)
+
+pdf.text(`Source : ${record.from}`,20,y)
+
+y+=4
+
+
+/* ---------- RECORD TOTALS ---------- */
+
+const recordIncome = parseFloat(record.income) || 0
+
+let recordExpense = 0
+
+txs.forEach(tr=>{
+  const amt = parseFloat(tr.amount)
+  if(!isNaN(amt)){
+    recordExpense += amt
   }
+})
 
-  let summaryIncome = 0;
-  let summaryExpense = 0;
-  let categorySummary = {};
+const recordBalance = recordIncome - recordExpense
+pdf.setFontSize(9)
 
-  /* ---------- SUMMARY CALCULATION ---------- */
-  records.forEach(record => {
-    const recordDate = new Date(record.date).getTime();
+pdf.text(`Income : ${recordIncome}`,20,y)
+pdf.text(`Expense : ${recordExpense}`,80,y)
+pdf.text(`Balance : ${recordBalance}`,140,y)
 
-    if (fromDate && toDate) {
-      const f = new Date(fromDate).getTime();
-      const t = new Date(toDate).getTime();
-      if (recordDate < f || recordDate > t) return;
-    }
+y+=6
 
-    summaryIncome += Number(record.income || 0);
 
-    let txs = record.transactions || [];
+/* ---------- TRANSACTION TABLE ---------- */
 
-    /* category filter */
-    if (categoryKeys.length) {
-      txs = txs.filter(t =>
-        categoryKeys.some(k =>
-          normalize(t.category).includes(normalize(k))
-        )
-      );
-    }
+if(txs.length){
 
-    /* date filter */
-    if (fromDate && toDate) {
-      const f = new Date(fromDate).getTime();
-      const t = new Date(toDate).getTime();
-      txs = txs.filter(tnx => {
-        const d = new Date(tnx.date).getTime();
-        return d >= f && d <= t;
-      });
-    }
+pdf.autoTable({
+startY:y,
+head:[["Date","Category","Description","Amount"]],
+body:txs.map(tr=>[
+tr.date||"",
+tr.category||"",
+tr.description||"",
+parseFloat(tr.amount)||0
+]),
+theme:"striped",
+styles:{fontSize:9},
+headStyles:{fillColor:[31,42,68],textColor:255}
+})
 
-    txs.forEach(t => {
-      const amt = Number(t.amount || 0);
-      summaryExpense += amt;
-      categorySummary[t.category] =
-        (categorySummary[t.category] || 0) + amt;
-    });
-  });
+y=pdf.lastAutoTable.finalY+8
 
-  const balance = summaryIncome - summaryExpense;
+}
 
-  /* ---------- PDF SETUP ---------- */
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF("p", "mm", "a4");
+})
 
-  const drawHeader = () => {
-    pdf.setFillColor(31, 42, 68);
-    pdf.rect(0, 0, 210, 18, "F");
-    pdf.setTextColor(255);
-    pdf.setFontSize(12);
-    pdf.text("MICROINTEL", 15, 12);
-    pdf.text("BLACKROAD", 195, 12, { align: "right" });
-    pdf.setTextColor(0);
-  };
+drawFooter()
 
-  const drawFooter = () => {
-    pdf.setFontSize(8);
-    pdf.setTextColor(120);
-    pdf.text(
-      `Generated on ${new Date().toLocaleString()}`,
-      105,
-      290,
-      { align: "center" }
-    );
-    pdf.setTextColor(0);
-  };
+const blob=pdf.output("blob")
+const url=URL.createObjectURL(blob)
 
-  drawHeader();
-  let y = 28;
+sendB(`<b>BlackRoad Report Ready</b><br><br>
+<a href="${url}" download="BlackRoad-Report.pdf">Download</a>`)
 
-  /* ---------- TITLE ---------- */
-  pdf.setFontSize(22);
-  pdf.setTextColor(31, 42, 68);
-  pdf.text("BlackRoad Summary Report", 105, y, { align: "center" });
-  y += 10;
-
-  pdf.setFontSize(11);
-  pdf.setTextColor(60);
-  pdf.text(
-    `Report For : ${nameKeys.length ? nameKeys.join(", ") : "All Sources"}`,
-    20,
-    y
-  );
-  y += 6;
-
-  if (fromDate && toDate) {
-    pdf.text(`Period : ${fromDate} to ${toDate}`, 20, y);
-    y += 8;
-  }
-
-  /* ---------- SUMMARY CARDS ---------- */
-  const cardY = y;
-  const drawCard = (x, title, value) => {
-    pdf.setFillColor(245);
-    pdf.rect(x, cardY, 55, 18, "F");
-    pdf.setFontSize(10);
-    pdf.setTextColor(80);
-    pdf.text(title, x + 4, cardY + 7);
-    pdf.setFontSize(14);
-    pdf.setTextColor(0);
-    pdf.text(String(value), x + 4, cardY + 14);
-  };
-
-  drawCard(20, "Total Income", summaryIncome);
-  drawCard(78, "Total Expense", summaryExpense);
-  drawCard(136, "Net Balance", balance);
-
-  y += 28;
-
-  /* ---------- CATEGORY TABLE ---------- */
-  pdf.setFontSize(15);
-  pdf.setTextColor(31, 42, 68);
-  pdf.text("Category Breakdown", 20, y);
-  y += 5;
-
-  pdf.autoTable({
-    startY: y,
-    head: [["Category", "Amount"]],
-    body: Object.entries(categorySummary),
-    theme: "grid",
-    styles: { fontSize: 10 },
-    headStyles: { fillColor: [31, 42, 68], textColor: 255 }
-  });
-
-  y = pdf.lastAutoTable.finalY + 10;
-
-  /* ---------- DETAILED TRANSACTIONS ---------- */
-  records.forEach(record => {
-    let txs = record.transactions || [];
-
-    /* category filter */
-    if (categoryKeys.length) {
-      txs = txs.filter(t =>
-        categoryKeys.some(k =>
-          normalize(t.category).includes(normalize(k))
-        )
-      );
-    }
-
-    /* date filter */
-    if (fromDate && toDate) {
-      const f = new Date(fromDate).getTime();
-      const t = new Date(toDate).getTime();
-      txs = txs.filter(tnx => {
-        const d = new Date(tnx.date).getTime();
-        return d >= f && d <= t;
-      });
-    }
-
-    if (!txs.length) return;
-
-    if (y > 250) {
-      pdf.addPage();
-      drawHeader();
-      y = 28;
-    }
-
-    pdf.setFontSize(12);
-    pdf.setTextColor(31, 42, 68);
-    pdf.text(`Income Date : ${record.date}`, 20, y);
-    y += 5;
-
-    pdf.setFontSize(10);
-    pdf.setTextColor(0);
-    pdf.text(`Source : ${record.from}`, 20, y);
-    y += 4;
-
-    pdf.autoTable({
-      startY: y,
-      head: [["Date", "Category", "Description", "Amount"]],
-      body: txs.map(t => [
-        t.date,
-        t.category,
-        t.description,
-        t.amount
-      ]),
-      theme: "striped",
-      styles: { fontSize: 9 },
-      headStyles: { fillColor: [31, 42, 68], textColor: 255 }
-    });
-
-    y = pdf.lastAutoTable.finalY + 8;
-  });
-
-  drawFooter();
-
-  const blob = pdf.output("blob");
-  const url = URL.createObjectURL(blob);
-  sendB(`<b>BlackRoad Report Ready</b><br><br><a href="${url}" download="BlackRoad-Report.pdf">Download</a>`);
 }
 function parseReportCommand(input) {
-  const text = input.toLowerCase();
+
+  const text = input.trim();
 
   const result = {
     from: [],
@@ -504,13 +588,15 @@ function parseReportCommand(input) {
   const regex = /(\w+)\((.*?)\)/g;
 
   for (const match of text.matchAll(regex)) {
-    const key = match[1];
+
+    const key = match[1].toLowerCase();
+
     const values = match[2]
       .split(",")
       .map(v => v.trim())
       .filter(Boolean);
 
-    if (key === "income") {
+    if (key === "income" || key === "inc") {
       result.from = values;
     }
 
@@ -522,11 +608,12 @@ function parseReportCommand(input) {
       result.fromDate = values[0] || null;
       result.toDate = values[1] || null;
     }
+
   }
 
   return result;
-}
 
+}
 function runReportCommand(commandText) {
   const filters = parseReportCommand(commandText);
   generateBlackRoadPDF(filters);
