@@ -188,6 +188,16 @@ hr{border:none;border-top:1px dashed var(--border);margin:6px 0}
 .net span:first-child{color:var(--accent);font-family:'Space Grotesk',system-ui;font-size:15px}
 .net span:last-child{font-size:21px}
 
+.subtotal{
+  font-weight:700;
+  border-bottom:none;
+  border-top:1px solid var(--border);
+  padding-top:14px;
+  margin-top:6px;
+}
+.subtotal span:first-child{color:var(--accent);font-family:'Space Grotesk',system-ui;font-size:14px}
+.subtotal span:last-child{color:var(--gold);font-size:17px}
+
 .chart-wrap{
   margin-top:24px;
   padding:18px;
@@ -391,15 +401,20 @@ function calculate(){
   <span>₹${receivable} (${percent(receivable)}%)</span>
   </div>
   
+  <div class="row subtotal">
+  <span>Total Assets (before liabilities)</span>
+  <span>₹${assets}</span>
+  </div>
+  
   <div class="row">
   <span>Liabilities</span>
-  <span>₹${liabilities}</span>
+  <span>− ₹${liabilities}</span>
   </div>
   
   <hr>
   
   <div class="row net">
-  <span>Net Worth</span>
+  <span>Net Worth (after liabilities)</span>
   <span style="color:${netColor}">₹${net}</span>
   </div>
   `;
